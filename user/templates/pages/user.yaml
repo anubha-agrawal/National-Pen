@@ -1,0 +1,23 @@
+title: user
+templateScript: /user/templates/pages/user.ftl
+renderType: freemarker
+dialog: user:pages/user
+visible: true
+
+areas:
+  topbar:
+    availableComponents:
+      topbar:
+        id: home:components/topbar
+  navbar:
+    availableComponents:
+      navbar:
+        id: home:components/navbar
+  footer:
+    availableComponents:
+      footer:
+        id: home:components/footer
+  copyright:
+    availableComponents:
+      copyright:
+        id: home:components/copyright

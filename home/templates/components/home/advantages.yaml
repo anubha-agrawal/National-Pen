@@ -1,0 +1,4 @@
+title: advantages
+renderType: freemarker
+templateScript: /home/templates/components/home/advantages.ftl
+dialog: home:components/advantages

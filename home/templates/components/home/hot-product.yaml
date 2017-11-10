@@ -1,0 +1,4 @@
+title: hot-product
+renderType: freemarker
+templateScript: /home/templates/components/home/hot-product.ftl
+dialog: home:components/hot-product

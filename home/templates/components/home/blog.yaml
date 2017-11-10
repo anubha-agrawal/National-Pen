@@ -1,0 +1,4 @@
+title: blog
+renderType: freemarker
+templateScript: /home/templates/components/home/blog.ftl
+dialog: home:components/blog

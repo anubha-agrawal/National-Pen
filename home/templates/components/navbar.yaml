@@ -1,0 +1,4 @@
+title: navbar
+renderType: freemarker
+templateScript: /home/templates/components/navbar.ftl
+dialog: home:components/navbar

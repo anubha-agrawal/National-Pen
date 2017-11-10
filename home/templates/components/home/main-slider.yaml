@@ -1,0 +1,4 @@
+title: main-slider
+renderType: freemarker
+templateScript: /home/templates/components/home/main-slider.ftl
+dialog: home:components/main-slider

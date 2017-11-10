@@ -1,0 +1,35 @@
+title: National pen home
+templateScript: /home/templates/pages/home.ftl
+renderType: freemarker
+dialog: home:pages/home
+visible: true
+
+areas:
+  topbar:
+    availableComponents:
+      topbar:
+        id: home:components/topbar
+  navbar:
+    availableComponents:
+      navbar:
+        id: home:components/navbar
+  main:
+    availableComponents:
+      main-slider:
+        id: home:components/home/main-slider
+      advantages:
+        id: home:components/home/advantages
+      hot-product:
+        id: home:components/home/hot-product
+      get-inspired:
+        id: home:components/home/get-inspired
+      blog:
+        id: home:components/home/blog
+  footer:
+    availableComponents:
+      footer:
+        id: home:components/footer
+  copyright:
+    availableComponents:
+      copyright:
+        id: home:components/copyright
