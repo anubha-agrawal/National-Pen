@@ -1,0 +1,2 @@
+factoryClass: io.cimpress.abc.product.app.fields.AttributeCompositeFieldFactory
+definitionClass: io.cimpress.abc.product.app.fields.AttributeCompositeFieldFactory$Definition

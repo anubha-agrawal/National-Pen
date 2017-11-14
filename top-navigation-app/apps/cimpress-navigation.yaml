@@ -1,0 +1,317 @@
+label: Top Navigation
+icon: icon-categories
+appClass: info.magnolia.ui.contentapp.ContentApp
+class: info.magnolia.ui.api.app.registry.ConfiguredAppDescriptor
+subApps:
+  browser:
+    label: Top Navigation
+    subAppClass: info.magnolia.ui.contentapp.browser.BrowserSubApp
+    class: info.magnolia.ui.contentapp.browser.BrowserSubAppDescriptor
+    contentConnector:
+      includeProperties: false
+      workspace: cimpress-navigation
+      rootPath: /
+      defaultOrder: jcrName
+      nodeTypes:
+        - icon: icon-node-content
+          strict: true
+          name: cimpress-navigation
+        - icon: icon-folder-l
+          strict: true
+          name: mgnl:folder
+    imageProvider:
+      originalImageNodeName: photo
+      imageProviderClass: info.magnolia.ui.imageprovider.DefaultImageProvider
+      class: info.magnolia.ui.imageprovider.definition.ConfiguredImageProviderDefinition
+    workbench:
+      dropConstraintClass: info.magnolia.ui.workbench.tree.drop.AlwaysTrueDropConstraint
+      editable: true
+      contentViews:
+        - name: tree
+          class: info.magnolia.ui.workbench.tree.TreePresenterDefinition
+          columns:
+            - name: name
+              label: Navigation Name
+              sortable: true
+              propertyName: name
+              class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
+            - name: className
+              label: Class Name
+              sortable: true
+              propertyName: className
+              class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
+            - name: status
+              label: Status
+              width: 100
+              sortable: true
+              displayInChooseDialog: false
+              formatterClass: info.magnolia.ui.workbench.column.StatusColumnFormatter
+              class: info.magnolia.ui.workbench.column.definition.StatusColumnDefinition
+            - name: moddate
+              label: Modification date
+              width: 160
+              sortable: true
+              displayInChooseDialog: false
+              formatterClass: info.magnolia.ui.workbench.column.DateColumnFormatter
+              propertyName: mgnl:lastModified
+              class: info.magnolia.ui.workbench.column.definition.MetaDataColumnDefinition
+    actions:
+      addFolder:
+        label: Add folder
+        icon: icon-add-folder
+        class: info.magnolia.ui.framework.action.AddFolderActionDefinition
+        availability:
+          writePermissionRequired: true
+          root: true
+          nodeTypes:
+            folder: mgnl:folder
+          rules:
+            - name: IsNotDeletedRule
+              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      editFolder:
+        label: Rename folder
+        dialogName: ui-framework:folder
+        icon: icon-edit
+        class: info.magnolia.ui.framework.action.OpenEditDialogActionDefinition
+        availability:
+          root: true
+          writePermissionRequired: true
+          nodeTypes:
+            folder: mgnl:folder
+          rules:
+            - name: IsNotDeletedRule
+              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      addCimpress-navigation:
+        subAppId: detail
+        label: Add Navigation
+        icon: icon-add-item
+        nodeType: cimpress-navigation
+        appName: cimpress-navigation
+        class: info.magnolia.ui.contentapp.detail.action.CreateItemActionDefinition
+        availability:
+          writePermissionRequired: true
+          root: true
+          rules:
+            - name: IsNotDeletedRule
+              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      editCimpress-navigation:
+        subAppId: detail
+        label: Edit Navigation
+        icon: icon-edit
+        appName: cimpress-navigation
+        class: info.magnolia.ui.contentapp.detail.action.EditItemActionDefinition
+        availability:
+          writePermissionRequired: true
+          nodeTypes:
+            cimpress-navigation: cimpress-navigation
+          rules:
+            - name: IsNotDeletedRule
+              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      renameCimpress-navigation:
+        label: Rename Navigation
+        dialogName: ui-framework:folder
+        icon: icon-edit
+        class: info.magnolia.ui.framework.action.OpenEditDialogActionDefinition
+        availability:
+          writePermissionRequired: true
+          nodeTypes:
+            cimpress-navigation: cimpress-navigation
+          rules:
+            - name: IsNotDeletedRule
+              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      delete:
+        label: Delete
+        asynchronous: true
+        command: markAsDeleted
+        icon: icon-delete
+        class: info.magnolia.ui.framework.action.MarkNodeAsDeletedActionDefinition
+        availability:
+          writePermissionRequired: true
+          rules:
+            - name: IsNotDeletedRule
+              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      activate:
+        command: activate
+        icon: icon-publish
+        catalog: versioned
+        class: info.magnolia.ui.framework.action.ActivationActionDefinition
+        availability:
+          writePermissionRequired: true
+      activateRecursive:
+        catalog: versioned
+        command: activate
+        icon: icon-publish-incl-sub
+        recursive: true
+        class: info.magnolia.ui.framework.action.ActivationActionDefinition
+        availability:
+          writePermissionRequired: true
+          rules:
+            - name: IsNotDeletedRule
+              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      deactivate:
+        catalog: versioned
+        command: deactivate
+        icon: icon-unpublish
+        class: info.magnolia.ui.framework.action.ActivationActionDefinition
+        availability:
+          writePermissionRequired: true
+          rules:
+            - name: IsNotDeletedRule
+              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      export:
+        command: export
+        icon: icon-export
+        class: info.magnolia.ui.framework.action.ExportActionDefinition
+        availability:
+          rules:
+            - name: IsNotDeletedRule
+              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      import:
+        icon: icon-import
+        dialogName: ui-admincentral:import
+        class: info.magnolia.ui.framework.action.OpenCreateDialogActionDefinition
+        availability:
+          writePermissionRequired: true
+          root: true
+          rules:
+            - name: IsNotDeletedRule
+              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+    actionbar:
+      sections:
+        - name: root
+          label: Top Navigation
+          availability:
+            nodes: false
+            root: true
+          groups:
+            - name: addActions
+              items:
+                - name: addCimpress-navigation
+                - name: addFolder
+            - name: editActions
+              items:
+                - name: editCimpress-navigation
+                - name: renameCimpress-navigation
+                - name: delete
+            - name: publishingActions
+              items:
+                - name: activate
+                - name: activateRecursive
+                - name: deactivate
+            - name: eximActions
+              items:
+                - name: export
+                - name: import
+        - name: folder
+          label: Folder
+          availability:
+            nodeTypes:
+              folder: mgnl:folder
+          groups:
+            - name: addActions
+              items:
+                - name: addCimpress-navigation
+                - name: addFolder
+            - name: editActions
+              items:
+                - name: editFolder
+                - name: delete
+            - name: publishingActions
+              items:
+                - name: activate
+                - name: activateRecursive
+                - name: deactivate
+            - name: eximActions
+              items:
+                - name: export
+                - name: import
+        - name: cimpress-navigation
+          label: Navigation
+          availability:
+            nodeTypes:
+              cimpress-navigation: cimpress-navigation
+          groups:
+            - name: addActions
+              items:
+                - name: addCimpress-navigation
+                - name: addFolder
+            - name: editActions
+              items:
+                - name: editCimpress-navigation
+                - name: renameCimpress-navigation
+                - name: delete
+            - name: publishingActions
+              items:
+                - name: activate
+                - name: activateRecursive
+                - name: deactivate
+            - name: eximActions
+              items:
+                - name: export
+                - name: import
+  detail:
+    label: Top Navigation
+    subAppClass: info.magnolia.ui.contentapp.detail.DetailSubApp
+    class: info.magnolia.ui.contentapp.detail.DetailSubAppDescriptor
+    contentConnector:
+      defaultOrder: jcrName
+      includeProperties: false
+      rootPath: /
+      workspace: cimpress-navigation
+      nodeTypes:
+        - icon: icon-node-content
+          name: cimpress-navigation
+          strict: true
+        - icon: icon-folder-l
+          name: mgnl:folder
+          strict: true
+    editor:
+      workspace: cimpress-navigation
+      nodeType:
+        icon: icon-items
+        name: cimpress-navigation
+      form:
+        description: Define the top Navigation
+        label: Edit Navigation
+        tabs:
+          - label: Navigation
+            name: cimpressNavigations
+            fields:
+              - label: Display Name
+                description: Defines name to Navigation.
+                name: name
+                i18n: true
+                required: true
+                class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+              - label: CSS Class
+                description: CSS decoration for navigation.
+                name: className
+                i18n: true
+                class: info.magnolia.ui.form.field.definition.SelectFieldDefinition
+                options:
+                  - name: None
+                    value:  
+                    label: None
+                    selected: true
+                  - name: new-product
+                    value: new-product
+                    label: new-product
+              - name: pagePicker
+                label: Page to Link
+                fieldEditable: true
+                buttonSelectOtherLabel: field.link.select.another
+                buttonSelectNewLabel: field.link.select.new
+                targetWorkspace: website
+                appName: pages
+                class: info.magnolia.ui.form.field.definition.LinkFieldDefinition
+                identifierToPathConverter:
+                  class: info.magnolia.ui.form.field.converter.BaseIdentifierToPathConverter
+      actions:
+        - name: commit
+        - name: cancel
+    actions:
+      commit:
+        implementationClass: info.magnolia.ui.form.action.SaveFormAction
+        class: info.magnolia.ui.form.action.SaveFormActionDefinition
+      cancel:
+        class: info.magnolia.ui.form.action.CancelFormActionDefinition

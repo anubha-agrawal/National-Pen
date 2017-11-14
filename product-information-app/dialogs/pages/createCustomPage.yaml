@@ -1,0 +1,29 @@
+modalityLevel: strong
+actions:
+  commit:
+    class: info.magnolia.pages.app.action.CreatePageAction$Definition
+  cancel:
+    class: info.magnolia.ui.admincentral.dialog.action.CancelDialogActionDefinition
+form:
+  tabs:
+    - name: tabPage
+      fields:
+        - name: jcrName
+          required: true
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+        - rows: 2
+          name: title
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+        - name: mgnl:template
+          label: Template
+          required: true
+          class: info.magnolia.pages.app.field.TemplateSelectorDefinition
+        - name: targetParentPage
+          fieldEditable: true
+          buttonSelectOtherLabel: field.link.select.another
+          buttonSelectNewLabel: field.link.select.new
+          targetWorkspace: website
+          appName: pages
+          class: info.magnolia.ui.form.field.definition.LinkFieldDefinition
+          identifierToPathConverter:
+            class: info.magnolia.ui.form.field.converter.BaseIdentifierToPathConverter 

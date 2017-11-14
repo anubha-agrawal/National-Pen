@@ -1,0 +1,2 @@
+factoryClass: io.cimpress.abc.product.app.fields.ImageCompositeFieldFactory
+definitionClass: io.cimpress.abc.product.app.fields.ImageCompositeFieldFactory$Definition

@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Slider from './Slider.jsx';
+import Search from './search.jsx';
 
-ReactDOM.render(<Slider />, document.getElementById('slider'));
+ReactDOM.render(<Search />, document.getElementById('search-bar'));

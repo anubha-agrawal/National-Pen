@@ -1,10 +1,10 @@
 <div class="navbar navbar-default yamm" role="navigation" id="navbar">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand home" href="index.html" data-animate-hover="bounce">
+            <!--<a class="navbar-brand home" href="index.html" data-animate-hover="bounce">
                 <img src="${ctx.contextPath}/.resources/home/webresources/img/logo.png" alt="Obaju logo" class="hidden-xs">
                 <img src="${ctx.contextPath}/.resources/home/webresources/img/logo-small.png" alt="Obaju logo" class="visible-xs"><span class="sr-only">Obaju - go to homepage</span>
-            </a>
+            </a> -->
             <div class="navbar-buttons">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
                     <span class="sr-only">Toggle navigation</span>

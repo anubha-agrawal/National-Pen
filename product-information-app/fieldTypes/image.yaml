@@ -1,0 +1,2 @@
+factoryClass: io.cimpress.abc.product.app.fields.ImageFieldFactory
+definitionClass: io.cimpress.abc.product.app.fields.ImageFieldFactory$Definition

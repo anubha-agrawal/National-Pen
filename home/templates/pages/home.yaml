@@ -9,10 +9,10 @@ areas:
     availableComponents:
       topbar:
         id: home:components/topbar
-  navbar:
-    availableComponents:
-      navbar:
-        id: home:components/navbar
+    navbar:
+      availableComponents:
+        navbar:
+          id: home:components/navbar
   main:
     availableComponents:
       main-slider:
@@ -25,6 +25,8 @@ areas:
         id: home:components/home/get-inspired
       blog:
         id: home:components/home/blog
+      search-bar:
+        id: home:components/home/search-bar
   footer:
     availableComponents:
       footer:

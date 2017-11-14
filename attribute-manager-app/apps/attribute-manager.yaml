@@ -1,0 +1,228 @@
+label: Attribute Manager
+icon: icon-work-item
+appClass: info.magnolia.ui.contentapp.ContentApp
+class: info.magnolia.ui.api.app.registry.ConfiguredAppDescriptor
+subApps:
+  browser:
+    label: Attributes
+    subAppClass: info.magnolia.ui.contentapp.browser.BrowserSubApp
+    class: info.magnolia.ui.contentapp.browser.BrowserSubAppDescriptor
+    contentConnector:
+      includeProperties: false
+      workspace: attribute-manager
+      rootPath: /
+      defaultOrder: jcrName
+      nodeTypes:
+        - icon: icon-node-content
+          name: attribute-manager
+          strict: true
+    imageProvider:
+      originalImageNodeName: photo
+      imageProviderClass: info.magnolia.ui.imageprovider.DefaultImageProvider
+      class: info.magnolia.ui.imageprovider.definition.ConfiguredImageProviderDefinition
+    workbench:
+      dropConstraintClass: info.magnolia.ui.workbench.tree.drop.AlwaysTrueDropConstraint
+      editable: true
+      contentViews:
+        - name: tree
+          class: info.magnolia.ui.workbench.tree.TreePresenterDefinition
+          columns:
+            - name: name
+              label: Attribute Name
+              sortable: true
+              propertyName: name
+              class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
+            - name: attrAlias
+              label: Alias
+              sortable: true
+              propertyName: attrAlias
+              class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
+            - name: isHidden
+              label: Persistently Hide
+              sortable: true
+              propertyName: isHidden
+              class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
+            - name: status
+              label: Status
+              width: 100
+              sortable: true
+              displayInChooseDialog: false
+              formatterClass: info.magnolia.ui.workbench.column.StatusColumnFormatter
+              class: info.magnolia.ui.workbench.column.definition.StatusColumnDefinition
+            - name: moddate
+              label: Modification date
+              width: 160
+              sortable: true
+              displayInChooseDialog: false
+              formatterClass: info.magnolia.ui.workbench.column.DateColumnFormatter
+              propertyName: mgnl:lastModified
+              class: info.magnolia.ui.workbench.column.definition.MetaDataColumnDefinition
+        - name: list
+          class: info.magnolia.ui.workbench.list.ListPresenterDefinition
+          columns:
+            - name: name
+              label: Attribute Name
+              sortable: true
+              propertyName: name
+              class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
+        - name: thumbnail
+          class: info.magnolia.ui.workbench.thumbnail.ThumbnailPresenterDefinition
+        - name: search
+          class: info.magnolia.ui.workbench.search.SearchPresenterDefinition
+          columns:
+            - name: name
+              label: Attribute Name
+              sortable: true
+              propertyName: name
+              class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
+    actions:
+      editAttribute-manager:
+        subAppId: detail
+        label: Edit Attribute Details
+        icon: icon-edit
+        appName: attribute-manager
+        class: info.magnolia.ui.contentapp.detail.action.EditItemActionDefinition
+        availability:
+          writePermissionRequired: true
+          nodeTypes:
+            attribute-manager: attribute-manager
+          rules:
+            - name: IsNotDeletedRule
+              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+#      activate:
+#        command: activate
+#        icon: icon-publish
+#        catalog: versioned
+#        class: info.magnolia.ui.framework.action.ActivationActionDefinition
+#        availability:
+#          writePermissionRequired: true
+#      activateRecursive:
+#        catalog: versioned
+#        command: activate
+#        icon: icon-publish-incl-sub
+#        recursive: true
+#        class: info.magnolia.ui.framework.action.ActivationActionDefinition
+#        availability:
+#          writePermissionRequired: true
+#          rules:
+#            - name: IsNotDeletedRule
+#              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+#      deactivate:
+#        catalog: versioned
+#        command: deactivate
+#        icon: icon-unpublish
+#        class: info.magnolia.ui.framework.action.ActivationActionDefinition
+#        availability:
+#          writePermissionRequired: true
+#          rules:
+#            - name: IsNotDeletedRule
+#              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+#      export:
+#        command: export
+#        icon: icon-export
+#        class: info.magnolia.ui.framework.action.ExportActionDefinition
+#        availability:
+#          rules:
+#            - name: IsNotDeletedRule
+#              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+#      import:
+#        icon: icon-import
+#        dialogName: ui-admincentral:import
+#        class: info.magnolia.ui.framework.action.OpenCreateDialogActionDefinition
+#        availability:
+#          writePermissionRequired: true
+#          root: true
+#          rules:
+#            - name: IsNotDeletedRule
+#              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+    actionbar:
+      sections:
+        - name: root
+          label: Attribute Actions
+          availability:
+            nodes: false
+            root: true
+          groups:
+#            - name: createProduct
+#              items:
+#                - name: create-page-from-product
+            - name: editActions
+              items:
+                - name: editAttribute-manager
+#            - name: publishingActions
+#              items:
+#                - name: activate
+#                - name: activateRecursive
+#                - name: deactivate
+#            - name: eximActions
+#              items:
+#                - name: export
+#                - name: import
+        - name: attribute-manager
+          label: Attribute Actions
+          availability:
+            nodeTypes:
+              attribute-manager: attribute-manager
+          groups:
+#            - name: createProduct
+#              items:
+#                - name: create-page-from-product
+            - name: editActions
+              items:
+                - name: editAttribute-manager
+#            - name: publishingActions
+#              items:
+#                - name: activate
+#                - name: activateRecursive
+#                - name: deactivate
+#            - name: eximActions
+#              items:
+#                - name: export
+#                - name: import
+  detail:
+    label: Product Information
+    subAppClass: info.magnolia.ui.contentapp.detail.DetailSubApp
+    class: info.magnolia.ui.contentapp.detail.DetailSubAppDescriptor
+    contentConnector:
+      defaultOrder: jcrName
+      includeProperties: false
+      rootPath: /
+      workspace: attribute-manager
+      nodeTypes:
+        - icon: icon-node-content
+          name: attribute-manager
+          strict: true
+    editor:
+      workspace: attribute-manager
+      nodeType:
+        icon: icon-items
+        name: attribute-manager
+      form:
+        tabs:
+          - name: tabMain
+            fields:
+              - name: name
+                class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+                readOnly: true
+              - name: attrAlias
+                class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+                i18n: true
+              - name: isHidden
+                class: info.magnolia.ui.form.field.definition.OptionGroupFieldDefinition
+                type: String
+                layout: horizontal
+                options:
+                  - name: Yes
+                    label: Yes
+                  - name: No
+                    label: No
+                    selected: true
+      actions:
+        - name: commit
+        - name: cancel
+    actions:
+      commit:
+        implementationClass: info.magnolia.ui.form.action.SaveFormAction
+        class: info.magnolia.ui.form.action.SaveFormActionDefinition
+      cancel:
+        class: info.magnolia.ui.form.action.CancelFormActionDefinition

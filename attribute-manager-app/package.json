@@ -1,0 +1,20 @@
+{
+  "name": "@magnolia/attribute-manager-app",
+  "version": "0.0.1",
+  "description": "ABC Product Information Magnolia Apps",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gmcpstash.cimpress.net/scm/abc/abc-demo-light-modules.git"
+  },
+  "keywords": [
+    "magnolia-light-module",
+    "attribute-manager-app"
+  ],
+  "contributors": [
+    "Amit Patil"
+    ],
+  "license": "ISC",
+  "publishConfig": {
+    "registry": "https://mcpartifactory.cimpress.net/artifactory/api/npm/npm-release-local"
+  }
+}

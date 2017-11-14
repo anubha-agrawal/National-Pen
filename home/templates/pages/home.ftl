@@ -35,6 +35,20 @@
       [#--     <link rel="stylesheet" type="text/css" href="${cssFile.link}" media="${cssFile.media}" /> --]
       [#--   [#if cssFile.conditionalComment?has_content]<![endif]-->[/#if] --] [#-- [/#list] --] [#-- [#list theme.jsFiles as jsFile] --] [#--
     <script src="${jsFile.link}"></script> --] [#-- [/#list] --] [#-- uncomment next line to use resfn templating functions to load all css which matches a globbing pattern --] [#-- ${resfn.css(["/home/.*css"])!} --]
+
+<script type="text/javascript" src="${ctx.contextPath}/.resources/libs/abc/index.bundle.js"></script>
+<script type="text/javascript">
+    //  Initializing ABC services 
+    var baseURL = '${ctx.contextPath}' || window.location.origin;
+    if(window.Abc){
+        window.Abc = window.Abc.index({
+          restPrefix: '/.rest/',
+          baseUrl: baseURL
+        });
+    }
+</script>
+
+
 </head>
 
 <body class="home ${cmsfn.language()}">

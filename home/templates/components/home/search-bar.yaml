@@ -1,0 +1,3 @@
+title: search-bar
+renderType: freemarker
+templateScript: /home/templates/components/home/search-bar.ftl

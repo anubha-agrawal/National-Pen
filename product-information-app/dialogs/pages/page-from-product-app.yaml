@@ -1,0 +1,184 @@
+wide: true
+form:
+  tabs:
+    - name: tabDetails
+      fields:
+        - name: cockpitName
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          readOnly: true
+        - name: displayName
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+        - name: customDesc
+          class: info.magnolia.ui.form.field.definition.RichTextFieldDefinition
+          tables: true
+          i18n: true
+    - name: tabMain
+      fields:
+        - name: pageTitle
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          i18n: true
+        - name: navTitle
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          i18n: true
+        - name: hideInNav
+          class: info.magnolia.ui.form.field.definition.CheckboxFieldDefinition
+          defaultValue: false
+          i18n: false
+          type: Boolean
+        - name: windowTitle
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          i18n: true
+        - name: abstract
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          i18n: true
+          rows: 5
+    - name: tabMeta
+      fields:
+#        - name: metaKeywords
+#          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+#          i18n: true
+#          rows: 5
+        - name: metaDescription
+          class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+          rows: 5
+    - name: tabAttributes
+      fields:
+        - name: attributes
+          class: io.cimpress.abc.product.app.fields.AttributeFieldFactory$Definition
+          transformerClass: io.cimpress.abc.product.app.fields.transformer.CustomMultiValueSubChildrenNodePropertiesTransformer
+          field:
+            name: compositeAttributeField
+            class: io.cimpress.abc.product.app.fields.AttributeCompositeFieldFactory$Definition
+            transformerClass: info.magnolia.ui.form.field.transformer.composite.NoOpCompositeTransformer
+            fields:
+              - name: attrAlias
+                class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+                label: Name
+                readOnly: true
+              - name: attrValue
+                class: io.cimpress.abc.product.app.fields.AttributeValueSelectFieldFactory$Definition
+                label: Value
+              - name: isHidden
+                class: info.magnolia.ui.form.field.definition.CheckboxFieldDefinition
+                defaultValue: false
+                i18n: false
+                type: Boolean
+        - name: quantity
+          class: io.cimpress.abc.product.app.fields.QuantitySelectFieldFactory$Definition
+        - name: shipping
+          class: io.cimpress.abc.product.app.fields.ShippingMethodSelectFieldFactory$Definition
+        - name: price
+          readOnly: true
+          class: io.cimpress.abc.product.app.fields.PriceFieldFactory$Definition
+    - name: tabMerchantImages
+      fields:
+        - name: merchantImages
+          class: info.magnolia.ui.form.field.definition.MultiValueFieldDefinition
+          i18n: false
+          transformerClass: info.magnolia.ui.form.field.transformer.multi.MultiValueSubChildrenNodePropertiesTransformer
+          field:
+            name: compositeImageField
+            class: info.magnolia.ui.form.field.definition.CompositeFieldDefinition
+            transformerClass: info.magnolia.ui.form.field.transformer.composite.NoOpCompositeTransformer
+            fields:
+              - name: image
+                class: info.magnolia.ui.form.field.definition.LinkFieldDefinition
+                targetWorkspace: dam
+                appName: assets
+                identifierToPathConverter:
+                  class: info.magnolia.dam.app.assets.field.translator.AssetCompositeIdKeyTranslator
+                contentPreviewDefinition:
+                  contentPreviewClass: info.magnolia.dam.app.ui.field.DamFilePreviewComponent
+              - name: isHidden
+                class: info.magnolia.ui.form.field.definition.CheckboxFieldDefinition
+                defaultValue: false
+                type: Boolean
+              - name: isDefault
+                class: info.magnolia.ui.form.field.definition.CheckboxFieldDefinition
+                defaultValue: false
+                type: Boolean
+              - name: altText
+                class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+                rows: 5
+              - name: imgUrl
+                class: info.magnolia.ui.form.field.definition.HiddenFieldDefinition
+                type: String
+    - name: tabImages
+      fields:
+        - name: images
+          class: info.magnolia.ui.form.field.definition.MultiValueFieldDefinition
+          i18n: false
+          transformerClass: io.cimpress.abc.product.app.fields.transformer.CustomMultiValueSubChildrenNodePropertiesTransformer
+          field:
+            name: compositeImageField
+            class: io.cimpress.abc.product.app.fields.ImageCompositeFieldFactory$Definition
+            transformerClass: info.magnolia.ui.form.field.transformer.composite.NoOpCompositeTransformer
+            fields:
+              - name: imgUrl
+                class: io.cimpress.abc.product.app.fields.ImageFieldFactory$Definition
+              - name: altText
+                class: info.magnolia.ui.form.field.definition.TextFieldDefinition
+                rows: 5
+              - name: isDefault
+                class: info.magnolia.ui.form.field.definition.CheckboxFieldDefinition
+                defaultValue: false
+                type: Boolean
+              - name: isHidden
+                class: info.magnolia.ui.form.field.definition.CheckboxFieldDefinition
+                defaultValue: true
+                type: Boolean
+    - name: tabContents
+      fields:
+        - name: blurbText
+          class: info.magnolia.ui.form.field.definition.RichTextFieldDefinition
+          tables: true
+          i18n: true
+        - name: artworkGuide
+          class: info.magnolia.ui.form.field.definition.RichTextFieldDefinition
+          tables: true
+          i18n: true
+        - name: photoshop
+          class: info.magnolia.ui.form.field.definition.LinkFieldDefinition
+          targetWorkspace: dam
+          appName: assets
+          identifierToPathConverter:
+            class: info.magnolia.dam.app.assets.field.translator.AssetCompositeIdKeyTranslator
+          contentPreviewDefinition:
+            contentPreviewClass: info.magnolia.dam.app.ui.field.DamFilePreviewComponent
+        - name: illustrator
+          class: info.magnolia.ui.form.field.definition.LinkFieldDefinition
+          targetWorkspace: dam
+          appName: assets
+          identifierToPathConverter:
+            class: info.magnolia.dam.app.assets.field.translator.AssetCompositeIdKeyTranslator
+          contentPreviewDefinition:
+            contentPreviewClass: info.magnolia.dam.app.ui.field.DamFilePreviewComponent
+        - name: indesign
+          class: info.magnolia.ui.form.field.definition.LinkFieldDefinition
+          targetWorkspace: dam
+          appName: assets
+          identifierToPathConverter:
+            class: info.magnolia.dam.app.assets.field.translator.AssetCompositeIdKeyTranslator
+          contentPreviewDefinition:
+            contentPreviewClass: info.magnolia.dam.app.ui.field.DamFilePreviewComponent
+        - name: acrobat
+          class: info.magnolia.ui.form.field.definition.LinkFieldDefinition
+          targetWorkspace: dam
+          appName: assets
+          identifierToPathConverter:
+            class: info.magnolia.dam.app.assets.field.translator.AssetCompositeIdKeyTranslator
+          contentPreviewDefinition:
+            contentPreviewClass: info.magnolia.dam.app.ui.field.DamFilePreviewComponent
+        - name: productDetails
+          class: info.magnolia.ui.form.field.definition.RichTextFieldDefinition
+          tables: false
+          i18n: true
+        - name: techSpec
+          class: info.magnolia.ui.form.field.definition.RichTextFieldDefinition
+          tables: true
+          i18n: true
+actions:
+  commit:
+    class: io.cimpress.abc.product.app.dialog.action.CustomSaveDialogActionDefinition
+  cancel:
+    class: info.magnolia.ui.admincentral.dialog.action.CancelDialogActionDefinition

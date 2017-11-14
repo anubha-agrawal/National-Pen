@@ -1,0 +1,122 @@
+label: Product Categories
+icon: icon-categories
+appClass: info.magnolia.ui.contentapp.ContentApp
+class: info.magnolia.ui.api.app.registry.ConfiguredAppDescriptor
+subApps:
+  browser:
+    label: Ctools Category
+    subAppClass: info.magnolia.ui.contentapp.browser.BrowserSubApp
+    class: info.magnolia.ui.contentapp.browser.BrowserSubAppDescriptor
+    contentConnector:
+      includeProperties: false
+      workspace: ctools-category
+      rootPath: /
+      defaultOrder: jcrName
+      nodeTypes:
+        - icon: icon-node-content
+          name: ctools-category
+          strict: true
+        - icon: icon-folder-l
+          name: mgnl:folder
+          strict: true
+    imageProvider:
+      originalImageNodeName: photo
+      imageProviderClass: info.magnolia.ui.imageprovider.DefaultImageProvider
+      class: info.magnolia.ui.imageprovider.definition.ConfiguredImageProviderDefinition
+    workbench:
+      dropConstraintClass: info.magnolia.ui.workbench.tree.drop.AlwaysTrueDropConstraint
+      editable: true
+      contentViews:
+        - name: tree
+          class: info.magnolia.ui.workbench.tree.TreePresenterDefinition
+          columns:
+            - name: name
+              label: Ctools Category name
+              sortable: true
+              propertyName: name
+              class: info.magnolia.ui.workbench.column.definition.PropertyColumnDefinition
+            - name: status
+              label: Status
+              width: 100
+              sortable: true
+              displayInChooseDialog: false
+              formatterClass: info.magnolia.ui.workbench.column.StatusColumnFormatter
+              class: info.magnolia.ui.workbench.column.definition.StatusColumnDefinition
+            - name: moddate
+              label: Modification date
+              width: 160
+              sortable: true
+              displayInChooseDialog: false
+              formatterClass: info.magnolia.ui.workbench.column.DateColumnFormatter
+              propertyName: mgnl:lastModified
+              class: info.magnolia.ui.workbench.column.definition.MetaDataColumnDefinition
+    actions:
+      delete:
+        label: Delete
+        asynchronous: true
+        command: markAsDeleted
+        icon: icon-delete
+        class: info.magnolia.ui.framework.action.MarkNodeAsDeletedActionDefinition
+        availability:
+          writePermissionRequired: true
+          rules:
+            - name: IsNotDeletedRule
+              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      activate:
+        command: activate
+        icon: icon-publish
+        catalog: versioned
+        class: info.magnolia.ui.framework.action.ActivationActionDefinition
+        availability:
+          writePermissionRequired: true
+      activateRecursive:
+        catalog: versioned
+        command: activate
+        icon: icon-publish-incl-sub
+        recursive: true
+        class: info.magnolia.ui.framework.action.ActivationActionDefinition
+        availability:
+          writePermissionRequired: true
+          rules:
+            - name: IsNotDeletedRule
+              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+      deactivate:
+        catalog: versioned
+        command: deactivate
+        icon: icon-unpublish
+        class: info.magnolia.ui.framework.action.ActivationActionDefinition
+        availability:
+          writePermissionRequired: true
+          rules:
+            - name: IsNotDeletedRule
+              implementationClass: info.magnolia.ui.framework.availability.IsNotDeletedRule
+    actionbar:
+      sections:
+        - name: root
+          label: Ctools Category
+          availability:
+            nodes: false
+            root: true
+          groups:
+            - name: editActions
+              items:
+                - name: delete
+            - name: publishingActions
+              items:
+                - name: activate
+                - name: activateRecursive
+                - name: deactivate
+        - name: ctools-category
+          label: Ctools Category
+          availability:
+            nodeTypes:
+              ctools-category: ctools-category
+          groups:
+            - name: editActions
+              items:
+                - name: delete
+            - name: publishingActions
+              items:
+                - name: activate
+                - name: activateRecursive
+                - name: deactivate
