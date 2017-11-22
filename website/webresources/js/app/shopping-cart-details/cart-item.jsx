@@ -3,7 +3,9 @@ import React, { Component } from "react";
 class CartItem extends Component {
     constructor(props) {
         super(props);
-        console.log("this.props.cartItem", props.cartItem.userSelections);
+        
+        console.log("this.props.cartItem",this.props.cartItem.userSelections);
+        
         this.state= {
          title: "Add to Order",
          upsellTitle: "Upsell Offer"
@@ -27,7 +29,6 @@ class CartItem extends Component {
             //api call to actually remove from order
         }
     };
-
     render() {
         return (
            
@@ -49,14 +50,18 @@ class CartItem extends Component {
                                                     <img src=".resources/website/webresources/img/product1.jpg" alt="White Blouse Armani" />
                                                 </a>
                                             </td>
-                                            <td title={this.props.cartItem.productName} className="itemNameTd"><a href="#">{this.props.cartItem.productName}</a>
-                                            {/*{this.props.cartItem.userSelection}.map([key,value])=>{
-                                                <p>{ this.value }</p>
-                                            }*/}
-                                            {/*Object.keys(this.props.cartItem.userSelections).map(function (key) {
-                                                <p>{this.props.cartItem.userSelections}</p>
-                                            }*/}
+                                            <td title={this.props.cartItem.productName} className="itemNameTd">
+                                                <a href="#">{this.props.cartItem.productName}</a>
                                             
+                                                {
+                                                    Object.keys(this.props.cartItem.userSelections).map( (value, index) => {
+                                                        return(
+                                                            <p>{value} : {Object.values(this.props.cartItem.userSelections[value])}</p>
+                                                        ) 
+                                                    })
+                                                }
+                                           
+                                           
                                             </td>
                                             <td>
                                                 {this.props.cartItem.quantity}
