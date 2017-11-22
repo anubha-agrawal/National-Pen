@@ -1,0 +1,3 @@
+templateScript: /website/templates/components/search/search-result.ftl
+renderType: freemarker
+title: search-result
