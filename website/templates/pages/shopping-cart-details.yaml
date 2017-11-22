@@ -1,0 +1,23 @@
+title: National Pen - Shopping Cart Details
+templateScript: /website/templates/pages/default.ftl
+renderType: freemarker
+dialog: website:pages/home
+visible: true
+areas:
+  header-links:
+      type: noComponent
+      templateScript: /website/templates/components/links/header-links.ftl
+  footer-links:
+      type: noComponent
+      templateScript: /website/templates/components/links/footer-links.ftl
+  header:
+      type: noComponent
+      renderType: freemarker
+      templateScript: /website/templates/components/topbar/topbar.ftl
+  main-container:
+      type: noComponent
+      templateScript: /website/templates/components/shopping-cart-details/shopping-cart-details.ftl
+  footer:
+    availableComponents:
+      copyrights:
+        id: website:components/copyrights/copyrights

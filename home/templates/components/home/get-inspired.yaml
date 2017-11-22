@@ -1,4 +1,0 @@
-title: get-inspired
-renderType: freemarker
-templateScript: /home/templates/components/home/get-inspired.ftl
-dialog: home:components/get-inspired

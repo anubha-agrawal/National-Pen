@@ -1,0 +1,4 @@
+title: product-details
+renderType: freemarker
+templateScript: /website/templates/components/product-details/product-details.ftl
+dialog: website:components/product-details

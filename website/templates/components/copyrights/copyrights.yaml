@@ -1,0 +1,4 @@
+title: copyrights
+renderType: freemarker
+templateScript: /website/templates/components/copyrights.ftl
+dialog: website:components/copyrights

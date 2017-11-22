@@ -1,0 +1,4 @@
+title: topbar
+renderType: freemarker
+templateScript: /website/templates/components/topbar.ftl
+dialog: website:components/topbar

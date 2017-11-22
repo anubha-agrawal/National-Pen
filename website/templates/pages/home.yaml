@@ -1,0 +1,28 @@
+title: National Pen Website
+templateScript: /website/templates/pages/default.ftl
+renderType: freemarker
+dialog: website:pages/home
+visible: true
+areas:
+  header-links:
+      type: noComponent
+      templateScript: /website/templates/components/links/header-links.ftl
+  footer-links:
+      type: noComponent
+      templateScript: /website/templates/components/links/footer-links.ftl
+  header:
+      type: noComponent
+      renderType: freemarker
+      templateScript: /website/templates/components/topbar/topbar.ftl
+  main-container:
+    availableComponents:
+      product-details:
+        id: website:components/product-details/product-details
+      search-bar:
+        id: website:components/search/search-bar
+      search-result:
+          id: website:components/search/search-result
+  footer:
+    availableComponents:
+      copyrights:
+        id: website:components/copyrights/copyrights

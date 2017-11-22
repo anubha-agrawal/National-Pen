@@ -1,0 +1,3 @@
+title: shopping-cart-details
+renderType: freemarker
+templateScript: /website/templates/components/shopping-cart-details/shopping-cart-details.ftl
