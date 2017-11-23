@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import ProductDetails from './../product-details/product-details';
+import $ from './../../libs/jquery-1.11.0.min';
 
 describe('<product Details> component', () => {
 
@@ -29,12 +30,16 @@ describe('<product Details> component', () => {
      const locale_details = {language:'en',currency:'EUR',country:'United Kingdom (uk)UK',country_code:'UK'};
 
      it('Product details component executed successfully....', () => {
-          const div = document.createElement('div');
+          const body = document.createElement('body');
           ReactDOM.render(<ProductDetails
                productid="7cf97905-b6fa-42f3-9716-184528608689"
                locale_details={window.locale_details}
                lang={product_details} />,
-               div);
+               body);
+
+               console.log("goToDescription",$("body").html);
+
+               expect($("body").length).toBe(1);
 
      });
 

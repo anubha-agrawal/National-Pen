@@ -4,3 +4,11 @@ div#top {
 button{
      color: red;
 }
+
+body {
+    background-color: #d6d6d6;
+}
+#top {
+    background: #2b638f;
+    padding: 10px 0;
+}

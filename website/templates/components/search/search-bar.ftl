@@ -3,13 +3,17 @@
 [#assign npSite =  cmsfn.root(content, "mgnl:page")!'']
 [#assign navigations = cmsfn.contentByPath("/", "cimpress-navigation") /]
 [#assign queryStr = ctx.getParameter('q')!?html]
+
+[#assign currentSiteName = sitefn.site().name ]
+<!-- getting the site parameters for currency, country and language -->
+[#assign siteParameters = cmsfn.contentByPath("/modules/multisite/config/sites/${currentSiteName}/parameters", "config")!'' /]
+
 <script type="text/javascript">
     function callSearch(e) {
-        window.location.href = "${ctx.contextPath}/home?q=" + document.getElementById('searchText').value;
+        window.location.href = "${ctx.contextPath}/${siteParameters.countryCode?lower_case}/home?q=" + document.getElementById('searchText').value;
         e.preventDefault();
     }
 </script>
-    
 <div class="navbar navbar-default yamm" role="navigation" id="navbar">
     <div class="container">
         <div class="collapse in clearfix" id="search">

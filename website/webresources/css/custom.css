@@ -22,7 +22,7 @@ a.active_lang {
 	float: right;
 }
 .itemNameTd, .itemNameTd p{
-	max-width: 105px;
+	max-width: 120px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
