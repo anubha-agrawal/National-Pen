@@ -43,7 +43,7 @@ class OrderSummary extends Component {
                                     </div>
                                 </div>
                                 <div className="col-sm-6 col-xs-12">
-                                        <h2>Quality Information:</h2>
+                                        <h2>Quantity Information:</h2>
                                         <table className="quantity-summary">
                                             <tbody>
                                                 <tr>
