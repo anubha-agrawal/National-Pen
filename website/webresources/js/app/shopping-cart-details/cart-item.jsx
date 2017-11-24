@@ -4,7 +4,7 @@ class CartItem extends Component {
     constructor(props) {
         super(props);
         console.log("cart item props", props)
-        if(props.cartItem.hasOwnProperty("upsellQuantity")){
+        if(props.cartItem.isUpsellAdded){
              this.state= {
                 title: "Remove from Order",
                 upsellTitle: "Upsell Offer Added"
@@ -15,7 +15,6 @@ class CartItem extends Component {
                 upsellTitle: "Upsell Offer"
              }
         }
-
     }
 
     handleDelete(e, id){
@@ -26,6 +25,12 @@ class CartItem extends Component {
 
     addToOrder() {
         if(this.state.title == "Add to Order"){
+
+            Abc.order.addItemsInCart(this.props.cartMeta, lineItems).then(function(res){
+                console.log('Updated Cart Data', res);
+                console.log('cartMeta', {id:res.id, version:res.version});
+            });
+
             this.setState({ title: "Remove from Order",
                         upsellTitle: "Upsell Offer Added" });
             //api call to actually add to order
