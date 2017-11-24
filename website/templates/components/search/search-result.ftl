@@ -1,6 +1,13 @@
 [#-------------- ASSIGNMENTS --------------]
 [#assign queryStr = ctx.getParameter('q')!?html]
-[#assign queryStr = "*"+queryStr+"*"]
+[#if queryStr?has_content]
+    [#assign queryStr = "*"+queryStr+"*"]
+[/#if]
+
+[#assign currentSiteName = sitefn.site().name ]
+<!-- getting the site parameters for currency, country and language -->
+[#assign siteParameters = cmsfn.contentByPath("/modules/multisite/config/sites/${currentSiteName}/parameters", "config")!'' /]
+
 [#assign siteRoot = cmsfn.root(content, "mgnl:page")]
 [#assign originalQueryStr = ctx.getParameter('q')!?html]
 
@@ -18,9 +25,7 @@
 [#if imageResult?has_content]
     [#list imageResult as item]
             [#assign myAsset = damfn.getAsset("jcr", cmsfn.asJCRNode(item).getPath())!]
-            [#assign url=damfn.getRendition(myAsset, "small-square").getLink()]
-
-
+            [#assign url=myAsset.getLink()]
     [/#list]
 [/#if]
 
@@ -56,7 +61,7 @@
         [#list searchResults as item]
             <div class="row list-group">
                 <div class="col-sm-12 col-md-12 col-lg-12">
-                    <a href="${ctx.contextPath}/product-details?productId=${item.id}" class="list-group-item"><img src="${url}" width="100"/>
+                    <a href="${ctx.contextPath}/${siteParameters.countryCode?lower_case}/product-details?productId=${item.id}" class="list-group-item"><img src="${url}" width="100"/>
                             <span class="search-productList">${item["displayName"]}</span>
 
                     </a>

@@ -4,6 +4,7 @@ import ProductDetail from './product-details/product-details.jsx';
 import ShoppingCartDetails from './shopping-cart-details/shopping-cart-details.jsx';
 import OrderSummaryGuest from './order-summary/order-summary-guest.jsx';
 import OrderSummary from './order-summary/order-summary.jsx';
+import MiniBasket from './mini-basket/mini-basket.jsx';
 
 let productDetail = document.getElementById('product-detail');
 if(productDetail) {
@@ -28,4 +29,8 @@ if(orderSummaryGuest) {
 let orderSummary = document.getElementById('order-summary');
 if(orderSummary) {
     ReactDOM.render(<OrderSummary />, document.getElementById('order-summary'));
+}
+let miniBasket = document.getElementById('mini-basket');
+if(miniBasket) {
+    ReactDOM.render(<MiniBasket />, document.getElementById('mini-basket'));
 }

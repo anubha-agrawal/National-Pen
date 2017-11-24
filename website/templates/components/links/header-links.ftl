@@ -21,8 +21,12 @@
 [#list theme.cssFiles as cssFile]
 <link rel="stylesheet" type="text/css" href="${cssFile.link}" media="${cssFile.media}" />
 [/#list]
-<!-- end multisite theme -->
 
+<!-- Get the site name -->
+[#assign currentSiteName = sitefn.site().name ]
+<!-- getting the site parameters for currency, country and language -->
+[#assign siteParameters = cmsfn.contentByPath("/modules/multisite/config/sites/${currentSiteName}/parameters", "config")!'' /]
+<!-- end multisite theme
 [#if cmsfn.language() == 'en_UK']
      [#assign languages = 'en']
      [#assign currency = 'EUR']
@@ -40,13 +44,11 @@
      [#assign currency = 'EUR']
      [#assign country = 'United Kingdom (uk)']
      [#assign country_code = 'UK']
-[/#if]
-
+[/#if] -->
 
 <script src="${ctx.contextPath}/.resources/website/webresources/js/libs/respond.min.js"></script>
 
 <link rel="shortcut icon" href="${ctx.contextPath}/.resources/website/webresources/img/favicon.png">
-
 
 [#--
 <script src="${ctx.contextPath}/.resources/website/webresources/js/libs/jquery.js"></script> --] [#-- or via theme --] [#-- [#assign site = sitefn.site()!] --] [#-- [#assign theme = sitefn.theme(site)!] --] [#-- [#list theme.cssFiles as cssFile] --] [#-- [#if cssFile.conditionalComment?has_content]
@@ -58,7 +60,7 @@
 <script type="text/javascript" src="${ctx.contextPath}/.resources/libs/abc/index.bundle.js"></script>
 <script type="text/javascript">
      //  Initializing ABC services
-     window.locale_details = {language:'${languages}',currency:'${currency}',country:'${country}',country_code:'${country_code}'};
+     window.locale_details = {language:'${siteParameters.language}',currency:'${siteParameters.currency}',country:'${siteParameters.country}',country_code:'${siteParameters.countryCode}'};
      console.log("locale_details",window.locale_details);
 
      var baseURL = '${ctx.contextPath}' || window.location.origin;

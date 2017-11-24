@@ -21,12 +21,18 @@ a.active_lang {
 .AddUpsellToOrder{
 	float: right;
 }
-.itemNameTd{
-	max-width: 65px;
+.itemNameTd, .itemNameTd p{
+	max-width: 120px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    min-width: 60px;
+    min-width: 100px;
+}
+.itemNameTd{
+	border-right: 1px solid lightgray
+}
+.itemNameTd p{
+	margin: 0px;
 }
 .box-footer{
 	clear:both;

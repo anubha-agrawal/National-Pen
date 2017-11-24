@@ -7,16 +7,19 @@
 
 [#assign en_class = '']
 [#assign jp_class = '']
-
 [#if cmsfn.language() == 'en_UK']
      [#assign en_class = 'active_lang']
 [/#if]
 [#if cmsfn.language() == 'ja_JAPAN']
      [#assign jp_class = 'active_lang']
 [/#if]
+<!-- Get the site name -->
+[#assign currentSiteName = sitefn.site().name]
+<!-- getting the site parameters for currency, country and language -->
+[#assign siteParameters = cmsfn.contentByPath("/modules/multisite/config/sites/${currentSiteName}/parameters", "config")!'' /]
     <div class="container">
         <div class="col-md-6 offer" data-animate="fadeInDown">
-             <a href="${ctx.contextPath}/home">
+             <a href="${ctx.contextPath}/${siteParameters.countryCode?lower_case}/home">
                  ${i18n['product_details.home']}
              </a>
         </div>
@@ -24,7 +27,7 @@
             <ul class="menu">
                 <li>
                     <a href="#">
-                        <i class="fa fa-shopping-cart"></i> <span class="hidden-xs">3 ${i18n['product_details.items_in_cart']}</span>
+                        <i class="fa fa-shopping-cart"></i> <span class="hidden-xs" id="mini-basket">0 ${i18n['product_details.items_in_cart']}</span>
                     </a>
                 </li>
                 <li><a href="${ctx.contextPath}/uk/${pageNode}" class="${en_class}">EN</a>

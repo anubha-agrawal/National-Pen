@@ -29,9 +29,7 @@ class ProductDetail extends Component {
         'value': {
           'currencyCode':'',
           'centAmout': ''
-
         }
-
       },
       productAttr:{}
 
@@ -47,6 +45,7 @@ class ProductDetail extends Component {
          let tierPricesData;
 
          for(let i=0;i<tierPrices.length;i++){
+         console.log((tierPrices[i].country).toLowerCase() +"=="+ (countryCode).toLowerCase());
           if((tierPrices[i].country).toLowerCase() == (countryCode).toLowerCase()){
             tierPricesData = tierPrices[i];
             return tierPricesData;
@@ -56,6 +55,7 @@ class ProductDetail extends Component {
   }
 
   componentDidMount(){
+  console.log("lang->",this.props.lang);
      let productId = this.props.productid;
      let languageCode = this.props.locale_details.language;
      let currencyCode = this.props.locale_details.currency;
@@ -63,6 +63,7 @@ class ProductDetail extends Component {
 
      /* get Product data from CommeceTools (ABC library) Using product Id */
      window.Abc.product.getProduct(productId).then(function(result){
+     console.log("languageCode",languageCode);
         if(parseInt(result.status) !== 404){
           let productDetailsData = result.masterData.current;
           let tierPrices = productDetailsData.masterVariant.prices;
@@ -177,6 +178,8 @@ class ProductDetail extends Component {
                                   mcpProductName = {this.state.mcpProductName}
                                   variantInfo = {this.state.variantInfo}
                                   lang={this.props.lang}
+                                  locale_details={this.props.locale_details}
+                                  
                                   />
                               </p>
                             </div>
