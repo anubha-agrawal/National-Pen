@@ -1,0 +1,27 @@
+node_modules
+#/libs
+.idea
+*.iml
+*.zip
+*.tfstate
+*.backup
+.idea/
+.vscode/
+package-lock.json
+coverage
+libs/VERSION.html
+**/webresources/build
+build
+
+# Boilerplate Node.js
+logs
+*.log
+npm-debug.log*
+pids
+*.pid
+*.seed
+*.pid.lock
+.npm
+.eslintcache
+.node_repl_history
+*.tgz
