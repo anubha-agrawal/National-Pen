@@ -6,6 +6,11 @@ class ShoppingCartButtons extends Component {
         console.log(this.props.showProceed);
     }
 
+    proceedToOrderSummary(){
+        console.log("in")
+        window.href = "/order-summary-guest";
+    }
+
     render() {
         return (
             <div className="box-footer">
@@ -14,7 +19,7 @@ class ShoppingCartButtons extends Component {
                                 </div>
                                 <div className="pull-right">
 
-                                    <button type="button" className={this.props.showProceed ? 'btn btn-primary' : 'hideProceed btn btn-primary'}>Proceed to checkout <i className="fa fa-chevron-right"></i>
+                                    <button type="button" onClick={this.proceedToOrderSummary.bind(this)} className={this.props.showProceed ? 'btn btn-primary' : 'hideProceed btn btn-primary'}>Proceed to checkout <i className="fa fa-chevron-right"></i>
                                     </button>
                                 </div>
                             </div>

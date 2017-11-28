@@ -3,8 +3,8 @@ import React, { Component } from "react";
 class CartItem extends Component {
     constructor(props) {
         super(props);
-        console.log("cart item props", props)
-        if(props.cartItem.hasOwnProperty("upsellQuantity")){
+        console.log("upsellCartObj", props);
+        if(props.cartItem.isUpsellAdded){
              this.state= {
                 title: "Remove from Order",
                 upsellTitle: "Upsell Offer Added"
@@ -15,23 +15,48 @@ class CartItem extends Component {
                 upsellTitle: "Upsell Offer"
              }
         }
-
     }
 
     handleDelete(e, id){
-        console.log("inside", this.props.cartItem.id);
         this.props.deleteItem(this.props.cartItem.id);
         e.preventDefault();
     }
 
     addToOrder() {
         if(this.state.title == "Add to Order"){
-            this.setState({ title: "Remove from Order",
+            console.log("this.props.lineItemsUpsell", this.props.lineItemsUpsell);
+            Abc.order.addItemsInCart(this.props.cartMeta, this.props.lineItemsUpsell).then(function(res){
+                console.log('Updated Cart Data', res);
+                console.log('cartMeta', {id:res.id, version:res.version});
+                if (!res.error) {
+                    this.props.cartItem.isUpsellAdded = true;
+                    this.setState({ title: "Remove from Order",
                         upsellTitle: "Upsell Offer Added" });
+                } if (res.statusCode == 404) { // res.statusCode == 404 if no cart exists
+                    console.log("res in error", res);
+                }
+            }.bind(this));
+
+            
             //api call to actually add to order
         } else{
-            this.setState({ title: "Add to Order",
-                        upsellTitle: "Upsell Offer" });
+            console.log("this.props.cartItem.upsellId", [this.props.cartItem.upsellId])
+            Abc.order.removeCartItems(this.props.cartMeta, [this.props.cartItem.upsellId]).then(res1 => {
+            if (!res1.error) {
+                console.log("done")
+                this.setState({title: "Add to Order",
+                        upsellTitle: "Upsell Offer"});
+            }
+            if (res1.statusCode == 404) { // res.statusCode == 404 if no cart exists
+                console.log(res1)
+                this.setState({title: "Add to Order",
+                        upsellTitle: "Upsell Offer"});
+            }
+            console.log('New Cart Data', JSON.stringify(res1));
+            console.log('cartMeta', { id: res1.id, version: res1.version });
+            });
+
+            
             //api call to actually remove from order
         }
     };
