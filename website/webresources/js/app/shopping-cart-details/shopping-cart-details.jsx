@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import OrderSummary from './order-summary.jsx';
+import OrderSummaryBox from './order-summary-box.jsx';
 import ShoppingCartButtons from './shopping-cart-buttons.jsx';
 import CartItem from './cart-item.jsx';
 import getSymbolFromCurrency from 'currency-symbol-map';
@@ -16,17 +16,14 @@ class ShoppingCartDetails extends Component {
       isLoader: true,
     };
   }
-  componentWillMount() {
-    // var userId = '3cfeddff-5af1-486a-bfc0-f89915c3b555'; // anonymousId or customerId
-    // var isLoggedIn = false;
-    // console.log('Calling Abc.order.getCart'); 
-    Abc.order.getCart("sandeep7-0515-4ba8-be12-5aef76be8225", false).then(function (res) {
-      isLoader: false,
-        console.log('Cart Data Result', res);
-      
-      let cartItem = {}, orderDetail = {};
+  componentWillMount() { 
+    Abc.order.getCart(window.user_id, false).then(function (res) {
+      isLoader: false;
+      let cartItem = {}, orderDetail = {}, lineItemsUpsell=[];
+
       let cartArray = [];
       if (res.id) {        // Valid Cart, Store it for further use   
+        console.log("sandeep7-0515-4ba8-be12-5aef76be8225", res)
         for (let i = 0; i < res.lineItems.length; i++) {
 
           if (res.lineItems[i].custom.fields.lineItemType == "mainItem") {
@@ -43,11 +40,13 @@ class ShoppingCartDetails extends Component {
             cartArray.push(cartItem);
           } else if (res.lineItems[i].custom.fields.lineItemType == "Upsell") {
             for (let k = 0; k < cartArray.length; k++) {
-              console.log("cartArray[k].id == res.lineItems[i]", res.lineItems[i].id)
+
               if (cartArray[k].id == res.lineItems[i].custom.fields.lineItemIdReference) {
                 cartArray[k].upsellQuantity = res.lineItems[i].quantity;
                 cartArray[k].upsellPrice = res.lineItems[i].price.value.centAmount / 100;
                 cartArray[k].isUpsellAdded = true;
+                cartArray[k].upsellId = res.lineItems[i].id;
+
               }
             }
           } else if (res.lineItems[i].custom.fields.lineItemType == "Free") {
@@ -58,7 +57,7 @@ class ShoppingCartDetails extends Component {
             }
           }
           orderDetail = {
-            "subtotal": res.totalPrice.centAmount / 100,
+            "subTotal": res.totalPrice.centAmount / 100,
             "shippingCharge": 0,
             "setupCharge": 0,
             "VAT": 0,
@@ -73,33 +72,76 @@ class ShoppingCartDetails extends Component {
           id: res.id,
           version: res.version
         }
-        console.log("cart array", cartArray);
+
 
         for (let m = 0; m < cartArray.length; m++) {
           if (!cartArray[m].hasOwnProperty("upsellQuantity")) {
             for (let i = 0; i < res.lineItems.length; i++) {
+              let customFields = Object.assign({},res.lineItems[i].custom.fields);
+              if(customFields.lineItemNumber){
+                  delete customFields.lineItemNumber;
+              }
+              customFields.lineItemType = "Upsell";                      // use one of these ENUMs : mainItem / Free / Upsell
+              customFields.itemCreationTimeStamp = (new Date()).toISOString();
+              customFields.lineItemIdReference = cartArray[m].id;
+
+              lineItemsUpsell = [{
+                  productId: res.lineItems[i].productId,
+                  currencyCode: res.lineItems[i].totalPrice.currencyCode,
+                  externalTotalCentAmount: 3 * 600, 
+                  customFields: customFields,
+                  variantId: res.lineItems[i].variant.id
+              }];
+
               if (cartArray[m].id == res.lineItems[i].id) {
                 let upsellInfo = res.lineItems[i].price.custom.fields.UpSellQuantityAndPrice;
                 let upsellBreakup = [];
                 for (let z = 0; z < upsellInfo.length; z++) {
-                  console.log("i am in")
+
                   upsellBreakup = upsellInfo[z].split("::");
-                  console.log("upsellBreakup", upsellBreakup);
                   if (upsellBreakup[0] == cartArray[m].quantity) {
+                    console.log("i am in")
                     cartArray[m].upsellQuantity = upsellBreakup[1];
                     cartArray[m].upsellPrice = upsellBreakup[2] / 100;
                     cartArray[m].isUpsellAdded = false;
+                    
+                    lineItemsUpsell[0].quantity = upsellBreakup[1];
+                    console.log("test 1",lineItemsUpsell)
+                    lineItemsUpsell[0].externalTotalCentAmount = upsellBreakup[2];
+                    console.log("test ",lineItemsUpsell)
                   }
                 }
               }
+              lineItemsUpsell[0].quantity = parseInt(cartArray[m].upsellQuantity);
+              console.log("test 1",lineItemsUpsell)
+              lineItemsUpsell[0].externalTotalCentAmount = cartArray[m].upsellPrice * parseInt(cartArray[m].upsellQuantity);
+
             }
 
           }
         }
-        console.log("this cartItem new", cartArray);
-        this.setState({ cartItems: cartArray, orderDetails: orderDetail, fullCart: res, isLoader: false, cartMeta: cartMeta });
+
+
+        console.log("test ",lineItemsUpsell)
+        this.setState({ cartItems: cartArray, orderDetails: orderDetail, fullCart: res, isLoader: false, cartMeta: cartMeta, 
+                      lineItemsUpsell: lineItemsUpsell});
+
 
         cartArray = [];
+    //   Abc.order.removeCartItems(this.state.cartMeta, ["e34fbafa-de73-4947-bd8e-6637e771e52e"]).then(res1 => {
+    //   if (!res1.error) {
+    //     let item = this.state.cartItems;
+    //     let index = item.findIndex(x => x.id === id);
+    //     item.splice(index, 1);
+    //     this.setState({ cartItems: item });
+
+    //   }
+    //   if (res1.statusCode == 404) { // res.statusCode == 404 if no cart exists
+    //     console.log(res)
+    //   }
+    //   console.log('New Cart Data', JSON.stringify(res1));
+    //   console.log('cartMeta', { id: res1.id, version: res1.version });
+    // });
 
       }
       if (res.statusCode == 404) { // res.statusCode == 404 if no cart exists
@@ -121,7 +163,7 @@ class ShoppingCartDetails extends Component {
         }
       }
     }
-    console.log(' will delete', lineItemIdArray);
+    console.log("lineItemIdArray", lineItemIdArray)
     Abc.order.removeCartItems(cartMeta, lineItemIdArray).then(res1 => {
       if (!res1.error) {
         let item = this.state.cartItems;
@@ -162,7 +204,8 @@ class ShoppingCartDetails extends Component {
             <form method="post" action="checkout1.html">
               <h1>Shopping cart</h1>
               <p className="text-muted">You currently have {this.state.cartItems.length} item(s) in your cart.</p>
-              {this.state.cartItems.map((item, index) => <CartItem deleteItem={this.handleDeleteProject.bind(this)} key={index} cartItem={item} cartMeta={this.state.cartMeta} />)}
+              {this.state.cartItems.map((item, index) => <CartItem deleteItem={this.handleDeleteProject.bind(this)} key={index} cartItem={item} cartMeta={this.state.cartMeta}  lineItemsUpsell = {this.state.lineItemsUpsell}/>)}
+
               <ShoppingCartButtons showProceed={this.state.cartItems.length} />
             </form>
 
@@ -173,7 +216,7 @@ class ShoppingCartDetails extends Component {
         </div>
         {/* /.col-md-9*/}
         <div className="col-md-3">
-          {this.state.cartItems.length ? <OrderSummary orderDetails={this.state.orderDetails} /> : ""}
+          {this.state.cartItems.length ? <OrderSummaryBox orderDetails={this.state.orderDetails} /> : ""}
 
         </div>
         {/* /.col-md-3 */}

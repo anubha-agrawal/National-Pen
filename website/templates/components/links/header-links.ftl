@@ -15,6 +15,8 @@
 <!-- your stylesheet with modifications -->
 <link href="${ctx.contextPath}/.resources/website/webresources/css/custom.css" rel="stylesheet">
 
+[#assign user_id = 'sandeep7-0515-4ba8-be12-5aef76be8225']
+
 <!-- multisite theme -->
 [#assign site = sitefn.site()!]
 [#assign theme = sitefn.theme(site)!]
@@ -62,7 +64,7 @@
      //  Initializing ABC services
      window.locale_details = {language:'${siteParameters.language}',currency:'${siteParameters.currency}',country:'${siteParameters.country}',country_code:'${siteParameters.countryCode}'};
      console.log("locale_details",window.locale_details);
-
+     window.user_id = '${user_id}';
      var baseURL = '${ctx.contextPath}' || window.location.origin;
      if(window.Abc){
          window.Abc = window.Abc.index({

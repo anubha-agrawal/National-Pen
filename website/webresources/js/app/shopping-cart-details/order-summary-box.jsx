@@ -1,10 +1,31 @@
 import React, { Component } from "react";
 
-class OrderSummary extends Component {
+class OrderSummaryBox extends Component {
     constructor(props) {
         super(props);
+        this.state={
+            "total": props.orderDetails.total,
+            "subTotal":props.orderDetails.subTotal,
+            "shippingCharge": props.orderDetails.shippingCharge,
+            "setupCharge":props.orderDetails.setupCharge,
+            "VAT": props.orderDetails.VAT,
+            "discount": props.orderDetails.discount
+        }
     }
-
+    componentWillMount(){
+        window.Abc.EventBus.subscribe(Abc.order.EVENT_CART_UPDATED, 'order-summary-box', this.onPriceUpdate.bind(this));
+    }
+    onPriceUpdate(cart){
+        this.setState({
+            "total": cart.totalPrice.centAmount / 100,
+            "subTotal":cart.totalPrice.centAmount / 100,
+            "shippingCharge": 0,
+            "setupCharge":0,
+            "VAT": 0,
+            "discount": 0
+        });
+       
+    }
     render() {
         return (
             <div className="box" id="order-summary">
@@ -28,27 +49,27 @@ class OrderSummary extends Component {
                                 <tbody>
                                     <tr>
                                         <td>Order subtotal</td>
-                                        <th>{this.props.orderDetails.currencyCode} {this.props.orderDetails.subtotal}</th>
+                                        <th>{this.props.orderDetails.currencyCode} {this.state.subTotal}</th>
                                     </tr>
                                     <tr>
                                         <td>Shipping Charge</td>
-                                        <th>{this.props.orderDetails.currencyCode} {this.props.orderDetails.shippingCharge}</th>
+                                        <th>{this.props.orderDetails.currencyCode} {this.state.shippingCharge}</th>
                                     </tr>
                                     <tr>
                                         <td>Setup Charge</td>
-                                        <th>{this.props.orderDetails.currencyCode} {this.props.orderDetails.setupCharge}</th>
+                                        <th>{this.props.orderDetails.currencyCode} {this.state.setupCharge}</th>
                                     </tr>
                                     <tr>
                                         <td>VAT</td>
-                                        <th>{this.props.orderDetails.currencyCode} {this.props.orderDetails.VAT}</th>
+                                        <th>{this.props.orderDetails.currencyCode} {this.state.VAT}</th>
                                     </tr>
                                     <tr>
                                         <td>Discount</td>
-                                        <th>{this.props.orderDetails.currencyCode} {this.props.orderDetails.discount}</th>
+                                        <th>{this.props.orderDetails.currencyCode} {this.state.discount}</th>
                                     </tr>
                                     <tr className="total">
                                         <td>Total Price</td>
-                                        <th>{this.props.orderDetails.currencyCode} {this.props.orderDetails.total}</th>
+                                        <th>{this.props.orderDetails.currencyCode} {this.state.total}</th>
                                     </tr>
                                 </tbody>
                             </table>
@@ -58,4 +79,4 @@ class OrderSummary extends Component {
         );
     }
 }
-export default OrderSummary;
+export default OrderSummaryBox;
