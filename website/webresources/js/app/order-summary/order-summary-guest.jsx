@@ -5,6 +5,7 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 import Loader from "../loader/loader.jsx";
 
 
+
 class OrderSummaryGuest extends Component {
     constructor(props) {
         super(props);
@@ -36,6 +37,7 @@ class OrderSummaryGuest extends Component {
    
 
     componentWillMount() { 
+        this.changeGenericHandler('isLoader', true);
         Abc.order.getCart(window.user_id, false).then(function (res) {
           isLoader: false;
           let cartItem = {}, orderDetail = {}, lineItemsUpsell=[];
@@ -141,7 +143,7 @@ class OrderSummaryGuest extends Component {
                 for (let z = 0; z < upsellInfo.length; z++) {
                     upsellBreakup = upsellInfo[z].split("::");
                     if (upsellBreakup[0] == cartItem.quantity) {
-                    console.log("i am in")
+                   
                     cartItem.upsellQuantity = upsellBreakup[1];
                     cartItem.upsellPrice = upsellBreakup[2] / 100;
                     cartItem.isUpsellAdded = false;
@@ -246,20 +248,19 @@ class OrderSummaryGuest extends Component {
         this.setState({ [name]: e.target.value });
     }
 
+   
+
     render() {
         let cartItems = this.processLineItem(this.state.fullCart);
         let orderDetails = this.processLineItemForOrderDetails(this.state.fullCart)
         return (
-            <div className="relative-container">
-                <div>
+            
+                <div className="container top-gutter ">
                     {
                         this.state.isLoader
                         ? <Loader />
                         : null
                     }
-                </div>
-                <div className="container top-gutter">
-                    
                         <div className="row">
                             <div className="col-xs-12">
                                 <div className="box" >
@@ -322,6 +323,7 @@ class OrderSummaryGuest extends Component {
                                                         placeholder="First Name"
                                                         value={this.state.firstName} />
                                                 </div>
+                                               
                                             </div>
                                             <div className="col-sm-6 col-xs-12">
                                                 <div className="form-group">
@@ -438,7 +440,7 @@ class OrderSummaryGuest extends Component {
                             </div>
                         </div>
                 </div>
-            </div>
+           
         );
     }
 }

@@ -20,6 +20,7 @@ class OrderSummary extends Component {
     }
 
     componentWillMount() { 
+        this.changeGenericHandler('isLoader', true);
       Abc.order.getCart(window.user_id, false).then(function (res) {
         isLoader: false;
         let cartItem = {}, orderDetail = {}, lineItemsUpsell=[];
@@ -159,66 +160,78 @@ class OrderSummary extends Component {
       return orderDetails;
   }
 
+  
+    /* Generic State change handler */
+    changeGenericHandler(key, value){
+        this.setState({ [key]: value });
+    }
+
     render() {
       let cartItems = this.processLineItem(this.state.fullCart);
       let orderDetails = this.processLineItemForOrderDetails(this.state.fullCart)
         return (
-            <div className="container top-gutter">
-                <div className="row">
-                    <div className="col-md-9 col-xs-12" id="basket">
-                            <div className="box">
-                                    <div className="product-view">
-                                    {cartItems.map((item, index) => <CartItem key={index} updateParentCartMetaData={this.updateCartMetaData.bind(this)} isProductReadonlyView="true" key={index} cartItem={item} cartMeta={this.state.cartMeta}  lineItemsUpsell = {this.getLineItemUpsell(item,this.state.fullCart)}/>)}
-                                    </div>
-                                    <hr/>
-                              
-                                
-                                <div className="row addresses">
-                                    <div className="col-md-6">
-                                        <h3>Shipping Information</h3>
-                                        <p>
-                                            <b>{this.state.shippingAddress.firstName} {this.state.shippingAddress.lastName}
-                                            <br/><a href={'mailto:'+ this.state.shippingAddress.email}>{this.state.shippingAddress.email}</a>
-                                            <br/>{this.state.shippingAddress.phone}</b>
-                                            <br/><br/>{this.state.shippingAddress.streetName}
-                                            <br/>{this.state.shippingAddress.additionalStreetInfo}
-                                            
-                                            <br/>{this.state.shippingAddress.city} {this.state.shippingAddress.postalCode}
-                                            <br/>{this.state.shippingAddress.country}
-                                        </p>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <h3>Billing Information</h3>
-                                        <p>
-                                            <b>{this.state.billingAddress.firstName} {this.state.billingAddress.lastName}
-                                            <br/><a href={'mailto:'+ this.state.shippingAddress.email}>{this.state.billingAddress.email}</a>
-                                            <br/>{this.state.billingAddress.phone}</b>
-                                            <br/><br/>{this.state.billingAddress.streetName}
-                                            <br/>{this.state.billingAddress.additionalStreetInfo}
-                                            
-                                            <br/>{this.state.billingAddress.city} {this.state.billingAddress.postalCode}
-                                            <br/>{this.state.billingAddress.country}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="box-footer">
-                                            <div className="pull-right">
-                                                <button type="submit" className="btn btn-primary">Checkout - Pay Later<i className="fa fa-chevron-right"></i>
-                                                </button>
+                    <div className="container top-gutter">
+                        {
+                            this.state.isLoader
+                            ? <Loader />
+                            : null
+                        }
+                        <div className="row">
+                            <div className="col-md-9 col-xs-12" id="basket">
+                                    <div className="box">
+                                            <div className="product-view">
+                                            {cartItems.map((item, index) => <CartItem key={index} updateParentCartMetaData={this.updateCartMetaData.bind(this)} isProductReadonlyView="true" key={index} cartItem={item} cartMeta={this.state.cartMeta}  lineItemsUpsell = {this.getLineItemUpsell(item,this.state.fullCart)}/>)}
+                                            </div>
+                                            <hr/>
+                                    
+                                        
+                                        <div className="row addresses">
+                                            <div className="col-md-6">
+                                                <h3>Shipping Information</h3>
+                                                <p>
+                                                    <b>{this.state.shippingAddress.firstName} {this.state.shippingAddress.lastName}
+                                                    <br/><a href={'mailto:'+ this.state.shippingAddress.email}>{this.state.shippingAddress.email}</a>
+                                                    <br/>{this.state.shippingAddress.phone}</b>
+                                                    <br/><br/>{this.state.shippingAddress.streetName}
+                                                    <br/>{this.state.shippingAddress.additionalStreetInfo}
+                                                    
+                                                    <br/>{this.state.shippingAddress.city} {this.state.shippingAddress.postalCode}
+                                                    <br/>{this.state.shippingAddress.country}
+                                                </p>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <h3>Billing Information</h3>
+                                                <p>
+                                                    <b>{this.state.billingAddress.firstName} {this.state.billingAddress.lastName}
+                                                    <br/><a href={'mailto:'+ this.state.shippingAddress.email}>{this.state.billingAddress.email}</a>
+                                                    <br/>{this.state.billingAddress.phone}</b>
+                                                    <br/><br/>{this.state.billingAddress.streetName}
+                                                    <br/>{this.state.billingAddress.additionalStreetInfo}
+                                                    
+                                                    <br/>{this.state.billingAddress.city} {this.state.billingAddress.postalCode}
+                                                    <br/>{this.state.billingAddress.country}
+                                                </p>
                                             </div>
                                         </div>
+                                        <div className="box-footer">
+                                                    <div className="pull-right">
+                                                        <button type="submit" className="btn btn-primary">Checkout - Pay Later<i className="fa fa-chevron-right"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
 
-                                
+                                        
 
+                                    </div>
                             </div>
+                            <div className="col-md-3 col-xs-12">
+                                
+                                {cartItems.length ? <OrderSummaryBox orderDetails={orderDetails} isProductReadonlyView="true"  /> : ""}
+                            </div>
+                        </div>
+                    
                     </div>
-                    <div className="col-md-3 col-xs-12">
-                        
-                        {cartItems.length ? <OrderSummaryBox orderDetails={orderDetails} isProductReadonlyView="true"  /> : ""}
-                    </div>
-                </div>
-               
-            </div>
+           
         );
     }
 }
