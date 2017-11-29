@@ -107,7 +107,7 @@ class AddToCartButton extends Component {
   AddToCart(e){
     e.preventDefault();
 
-    let userId = 'sandeep7-0515-4ba8-be12-5aef76be8225';
+    let userId = window.user_id;
     let isLoggedIn = false;
     let designerData = null;
     let taxMode = null;

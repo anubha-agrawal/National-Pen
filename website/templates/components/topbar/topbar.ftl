@@ -18,7 +18,7 @@
 <!-- getting the site parameters for currency, country and language -->
 [#assign siteParameters = cmsfn.contentByPath("/modules/multisite/config/sites/${currentSiteName}/parameters", "config")!'' /]
     <div class="container">
-        <div class="col-md-6 offer" data-animate="fadeInDown">
+        <div class="col-md-6 topleftMenu" data-animate="fadeInDown">
              <a href="${ctx.contextPath}/${siteParameters.countryCode?lower_case}/home">
                  ${i18n['product_details.home']}
              </a>
@@ -26,7 +26,7 @@
         <div class="col-md-6" data-animate="fadeInDown">
             <ul class="menu">
                 <li>
-                    <a href="#">
+                    <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#miniBasketModel">
                         <i class="fa fa-shopping-cart"></i> <span class="hidden-xs" id="mini-basket">0 ${i18n['product_details.items_in_cart']}</span>
                     </a>
                 </li>
@@ -38,3 +38,5 @@
         </div>
     </div>
 </div>
+
+<div id="mini-basket-popup"></div>

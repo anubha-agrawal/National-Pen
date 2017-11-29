@@ -40,3 +40,15 @@ a.active_lang {
 .hideProceed{
 	display: none;
 }
+/*  mini basket popup */
+.topleftMenu{
+	line-height: 2.5;
+}
+#miniBasketModel #basket{
+	max-height: calc(100vh - 250px);
+     overflow-y: auto;
+}
+
+#miniBasketModel .clear{
+	clear: both;
+}

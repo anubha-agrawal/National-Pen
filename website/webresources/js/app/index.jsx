@@ -5,6 +5,7 @@ import ShoppingCartDetails from './shopping-cart-details/shopping-cart-details.j
 import OrderSummaryGuest from './order-summary/order-summary-guest.jsx';
 import OrderSummary from './order-summary/order-summary.jsx';
 import MiniBasket from './mini-basket/mini-basket.jsx';
+import MiniBasketPopup from './mini-basket/mini-basket-popup.jsx';
 
 let productDetail = document.getElementById('product-detail');
 if(productDetail) {
@@ -19,7 +20,7 @@ if(productDetail) {
 
 let shoppingCartDetail = document.getElementById('shopping-cart-details');
 if(shoppingCartDetail) {
-    ReactDOM.render(<ShoppingCartDetails />, document.getElementById('shopping-cart-details'));
+    ReactDOM.render(<ShoppingCartDetails miniBasketPopup={false} />, document.getElementById('shopping-cart-details'));
 }
 
 let orderSummaryGuest = document.getElementById('order-summary-guest');
@@ -35,4 +36,9 @@ if(orderSummary) {
 let miniBasket = document.getElementById('mini-basket');
 if(miniBasket) {
     ReactDOM.render(<MiniBasket />, document.getElementById('mini-basket'));
+}
+
+let miniBasketPopup = document.getElementById('mini-basket-popup');
+if(miniBasketPopup) {
+    ReactDOM.render(<MiniBasketPopup header='Cart Details' />, document.getElementById('mini-basket-popup'));
 }

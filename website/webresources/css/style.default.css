@@ -70,7 +70,7 @@ h1 {
   width: 200px;
   height:auto;
   max-height: 200px;
-  
+
 }
 .order-summary .product-data .product-name{
   margin-left: 16px;
@@ -83,7 +83,7 @@ h1 {
   margin-right: 16px;
   display:block;
   font-weight: 500;
-  
+
 }
 #content #order-summary-guest table td{
   color: #999999;
@@ -872,6 +872,10 @@ h1 {
 #content #customer-order .table tbody tr td img {
   width: 50px;
 }
+.modal-body .table tbody tr td img {
+  width: 50px!important;
+}
+
 #content #checkout .table tfoot,
 #content #basket .table tfoot,
 #content #customer-order .table tfoot {

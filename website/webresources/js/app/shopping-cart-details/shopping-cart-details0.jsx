@@ -20,20 +20,26 @@ class ShoppingCartDetails extends Component {
     Abc.order.getCart(window.user_id, false).then(function (res) {
       isLoader: false;
       let cartItem = {}, orderDetail = {}, lineItemsUpsell=[];
+<<<<<<< Updated upstream
+      
+      if (res.id) {        // Valid Cart, Store it for further use   
+=======
 
+      let cartArray = [];
       if (res.id) {        // Valid Cart, Store it for further use
+>>>>>>> Stashed changes
         console.log("sandeep7-0515-4ba8-be12-5aef76be8225", res)
         console.log("test ",lineItemsUpsell)
         let cartMeta = {
           id: res.id,
           version: res.version
         }
-        this.setState({ fullCart: res, isLoader: false, cartMeta: cartMeta,
+        this.setState({ fullCart: res, isLoader: false, cartMeta: cartMeta, 
                       lineItemsUpsell: lineItemsUpsell});
 
-
+    
       }
-      if (res.statusCode == 404) {
+      if (res.statusCode == 404) { 
         // res.statusCode == 404 if no cart exists
         //no items in cart
         this.setState({ isLoader: false });
@@ -116,17 +122,18 @@ class ShoppingCartDetails extends Component {
                 cartArray[k].freeQuantity = res.lineItems[i].quantity;
               }
             }
-          }
+          }          
         }
     }
-    return cartArray;
-
+    return cartArray;      
+        
   }
 
   getLineItemUpsell(cartItem, res){
     let lineItemsUpsell = [];
     let itemUpsell = {};
 
+<<<<<<< Updated upstream
     //for (let m = 0; m < cartArray.length; m++) {
       if (!cartItem.hasOwnProperty("upsellQuantity")) {
         for (let i = 0; i < res.lineItems.length; i++) {
@@ -141,7 +148,7 @@ class ShoppingCartDetails extends Component {
           itemUpsell = {
               productId: res.lineItems[i].productId,
               currencyCode: res.lineItems[i].totalPrice.currencyCode,
-              externalTotalCentAmount: 3 * 600,
+              externalTotalCentAmount: 3 * 600, 
               customFields: customFields,
               variantId: res.lineItems[i].variant.id,
               mainItemId : res.lineItems[i].id
@@ -158,9 +165,48 @@ class ShoppingCartDetails extends Component {
                 cartItem.upsellQuantity = upsellBreakup[1];
                 cartItem.upsellPrice = upsellBreakup[2] / 100;
                 cartItem.isUpsellAdded = false;
-
+                
                 itemUpsell.quantity = upsellBreakup[1];
                 itemUpsell.externalTotalCentAmount = upsellBreakup[2];
+=======
+        for (let m = 0; m < cartArray.length; m++) {
+          if (!cartArray[m].hasOwnProperty("upsellQuantity")) {
+            for (let i = 0; i < res.lineItems.length; i++) {
+              let customFields = Object.assign({},res.lineItems[i].custom.fields);
+              if(customFields.lineItemNumber){
+                  delete customFields.lineItemNumber;
+              }
+              customFields.lineItemType = "Upsell";                      // use one of these ENUMs : mainItem / Free / Upsell
+              customFields.itemCreationTimeStamp = (new Date()).toISOString();
+              customFields.lineItemIdReference = cartArray[m].id;
+
+              lineItemsUpsell = [{
+                  productId: res.lineItems[i].productId,
+                  currencyCode: res.lineItems[i].totalPrice.currencyCode,
+                  externalTotalCentAmount: 3 * 600,
+                  customFields: customFields,
+                  variantId: res.lineItems[i].variant.id
+              }];
+
+              if (cartArray[m].id == res.lineItems[i].id) {
+                let upsellInfo = res.lineItems[i].price.custom.fields.UpSellQuantityAndPrice;
+                let upsellBreakup = [];
+                for (let z = 0; z < upsellInfo.length; z++) {
+
+                  upsellBreakup = upsellInfo[z].split("::");
+                  if (upsellBreakup[0] == cartArray[m].quantity) {
+                    console.log("i am in")
+                    cartArray[m].upsellQuantity = upsellBreakup[1];
+                    cartArray[m].upsellPrice = upsellBreakup[2] / 100;
+                    cartArray[m].isUpsellAdded = false;
+
+                    lineItemsUpsell[0].quantity = upsellBreakup[1];
+                    console.log("test 1",lineItemsUpsell)
+                    lineItemsUpsell[0].externalTotalCentAmount = upsellBreakup[2];
+                    console.log("test ",lineItemsUpsell)
+                  }
+                }
+>>>>>>> Stashed changes
               }
             }
           }
@@ -168,6 +214,32 @@ class ShoppingCartDetails extends Component {
           itemUpsell.externalTotalCentAmount = cartItem.upsellPrice * parseInt(cartItem.upsellQuantity);
           lineItemsUpsell.push(itemUpsell);
         }
+<<<<<<< Updated upstream
+=======
+
+
+        console.log("test ",lineItemsUpsell)
+        this.setState({ cartItems: cartArray, orderDetails: orderDetail, fullCart: res, isLoader: false, cartMeta: cartMeta,
+                      lineItemsUpsell: lineItemsUpsell});
+
+
+        cartArray = [];
+    //   Abc.order.removeCartItems(this.state.cartMeta, ["e34fbafa-de73-4947-bd8e-6637e771e52e"]).then(res1 => {
+    //   if (!res1.error) {
+    //     let item = this.state.cartItems;
+    //     let index = item.findIndex(x => x.id === id);
+    //     item.splice(index, 1);
+    //     this.setState({ cartItems: item });
+
+    //   }
+    //   if (res1.statusCode == 404) { // res.statusCode == 404 if no cart exists
+    //     console.log(res)
+    //   }
+    //   console.log('New Cart Data', JSON.stringify(res1));
+    //   console.log('cartMeta', { id: res1.id, version: res1.version });
+    // });
+
+>>>>>>> Stashed changes
       }
       //}
       return lineItemsUpsell;
@@ -185,7 +257,7 @@ class ShoppingCartDetails extends Component {
             "currencyCode": getSymbolFromCurrency(res.totalPrice.currencyCode),
             "total": res.totalPrice.centAmount / 100
           }
-    }
+    } 
     return orderDetails;
   }
 
@@ -212,13 +284,20 @@ class ShoppingCartDetails extends Component {
           <div className="box">
 
             <form method="post" action="checkout1.html">
-                 {this.props.miniBasketPopup==false?<h1>Shopping cart</h1>:''}
-                 <p className="text-muted">You currently have {cartItems.length} item(s) in your cart.</p>
-                    {cartItems.map((item, index) => <CartItem key={index} updateParentCartMetaData={this.updateCartMetaData.bind(this)} deleteItem={this.handleDeleteProject.bind(this)} key={index} cartItem={item} cartMeta={this.state.cartMeta}  lineItemsUpsell = {this.getLineItemUpsell(item,this.state.fullCart)}/>)}
+<<<<<<< Updated upstream
+              <h1>Shopping cart</h1>
+              <p className="text-muted">You currently have {cartItems.length} item(s) in your cart.</p>
+              {cartItems.map((item, index) => <CartItem key={index} updateParentCartMetaData={this.updateCartMetaData.bind(this)} deleteItem={this.handleDeleteProject.bind(this)} key={index} cartItem={item} cartMeta={this.state.cartMeta}  lineItemsUpsell = {this.getLineItemUpsell(item,this.state.fullCart)}/>)}
+              <ShoppingCartButtons showProceed={cartItems.length} />
+=======
+               {this.props.miniBasketPopup==false?<h1>Shopping cart</h1>:''}
+              <p className="text-muted">You currently have {this.state.cartItems.length} item(s) in your cart.</p>
+              {this.state.cartItems.map((item, index) => <CartItem deleteItem={this.handleDeleteProject.bind(this)} key={index} cartItem={item} cartMeta={this.state.cartMeta}  lineItemsUpsell = {this.state.lineItemsUpsell}/>)}
 
-                 {this.props.miniBasketPopup==false?
-                    <ShoppingCartButtons showProceed={cartItems.length} />
-                 :<div className="clear"></div>}
+              {this.props.miniBasketPopup==false?
+                   <ShoppingCartButtons showProceed={this.state.cartItems.length} />
+            :<div className="clear"></div>}
+>>>>>>> Stashed changes
             </form>
 
           </div>
@@ -227,11 +306,18 @@ class ShoppingCartDetails extends Component {
 
         </div>
         {/* /.col-md-9*/}
+<<<<<<< Updated upstream
+        <div className="col-md-3">
+          {cartItems.length ? <OrderSummaryBox orderDetails={orderDetails} isShippingChargesView="false" /> : ""}
+
+        </div>
+=======
         {this.props.miniBasketPopup==false?
              <div className="col-md-3">
-               {cartItems.length ? <OrderSummaryBox orderDetails={orderDetails} isShippingChargesView="false" /> : ""}
+               {this.state.cartItems.length ? <OrderSummaryBox orderDetails={this.state.orderDetails} /> : ""}
              </div>
         :''}
+>>>>>>> Stashed changes
         {/* /.col-md-3 */}
       </div>
     );

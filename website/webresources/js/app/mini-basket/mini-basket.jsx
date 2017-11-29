@@ -5,7 +5,7 @@ class MiniBasket extends Component {
 		super(props);
 		this.state = {
 			user: {
-				userId: "sandeep7-0515-4ba8-be12-5aef76be8225",
+				userId: window.user_id,
 				isLoggedIn: false
 			},
 			itemCount:0
@@ -19,9 +19,7 @@ class MiniBasket extends Component {
 
 		window.Abc.order.getCart(userId, isLoggedIn).then(function(res){
 		    if(res.id){
-		    	this.setState(
-		    		{itemCount:res.lineItems.length}
-		    	);
+			    this.totalCount(res);
 		    }else{
 			    this.setState(
 			    	{itemCount:0}
@@ -36,11 +34,23 @@ class MiniBasket extends Component {
 		window.Abc.EventBus.subscribe(Abc.order.EVENT_CART_UPDATED, 'mini-basket', this.onCartUpdated.bind(this));
 	}
 
+	totalCount(cart){
+		let total=0;
+		for (let i = 0; i < cart.lineItems.length; i++) {
+			if (cart.lineItems[i].custom.fields.lineItemType == "mainItem") {
+	              total++;
+			    console.log("ss-->",total)
+	          }
+		}
+		this.setState(
+			{itemCount:total}
+		);
+		console.log("total-->",total)
+	}
+
 	onUserLogin(loginResponse){
 		if(loginResponse.cart){
-			this.setState(
-				{itemCount:loginResponse.cart.lineItems.length}
-			);
+			this.totalCount(loginResponse.cart);
 		}else{
 			this.setState(
 				{itemCount:0}
@@ -49,9 +59,7 @@ class MiniBasket extends Component {
 	}
 
 	onCartUpdated(cart){
-		this.setState(
-			{itemCount:cart.lineItems.length}
-		);
+		this.totalCount(cart);
 	}
 
 	render () {
