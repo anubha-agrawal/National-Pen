@@ -121,7 +121,7 @@ class ShoppingCartDetails extends Component {
                       lineItemsUpsell: lineItemsUpsell});
 
         cartArray = [];
-    //   Abc.order.removeCartItems(this.state.cartMeta, ["e34fbafa-de73-4947-bd8e-6637e771e52e"]).then(res1 => {
+    //   Abc.order.removeCartItems(this.state.cartMeta, ["dd7563c1-d99f-4c9b-bcec-d63116349162"]).then(res1 => {
     //   if (!res1.error) {
     //     let item = this.state.cartItems;
     //     let index = item.findIndex(x => x.id === id);
@@ -144,34 +144,42 @@ class ShoppingCartDetails extends Component {
     }.bind(this));
   }
   handleDeleteProject(id) {
+    console.log("%%%%%")
     let lineItemIdArray = [];
     let lineItemsId = {};
     let cart = this.state.fullCart; // Full Cart Object from last response.
-    let cartMeta = { id: cart.id, version: cart.version }
     lineItemIdArray.push(id)
     for (let i = 0; i < cart.lineItems.length; i++) {
-      if (cart.lineItems[i].custom.fields.lineItemType == "Upsell" || cart.lineItems[i].custom.fields.lineItemType == "Free") {
+      console.log("in frst loop", cart.lineItems[i]);
+      if (cart.lineItems[i].custom.fields.lineItemType.toLowerCase() == "upsell" || cart.lineItems[i].custom.fields.lineItemType.toLowerCase() == "free") {
+        console.log("id",id);
         if (cart.lineItems[i].custom.fields.lineItemIdReference == id) {
+          console.log("in loop", cart.lineItems[i].id);
           lineItemIdArray.push(cart.lineItems[i].id);
         }
       }
     }
     console.log("lineItemIdArray", lineItemIdArray)
-    Abc.order.removeCartItems(cartMeta, lineItemIdArray).then(res1 => {
+    Abc.order.removeCartItems(this.state.cartMeta, lineItemIdArray).then(res1 => {
       if (!res1.error) {
         let item = this.state.cartItems;
         let index = item.findIndex(x => x.id === id);
         item.splice(index, 1);
         this.setState({ cartItems: item });
+        this.setState({cartMeta: {id:res1.id, version:res1.version}})
 
       }
       if (res1.statusCode == 404) { // res.statusCode == 404 if no cart exists
         console.log(res)
+        this.setState({cartMeta: {id:res1.id, version:res1.version}})
       }
       console.log('New Cart Data', JSON.stringify(res1));
       console.log('cartMeta', { id: res1.id, version: res1.version });
     });
 
+  }
+  updateCartMetaData(metaObj, res){
+    this.setState({cartMeta: metaObj, fullCart: res});
   }
 
   render() {
@@ -197,7 +205,7 @@ class ShoppingCartDetails extends Component {
             <form method="post" action="checkout1.html">
               <h1>Shopping cart</h1>
               <p className="text-muted">You currently have {this.state.cartItems.length} item(s) in your cart.</p>
-              {this.state.cartItems.map((item, index) => <CartItem deleteItem={this.handleDeleteProject.bind(this)} key={index} cartItem={item} cartMeta={this.state.cartMeta}  lineItemsUpsell = {this.state.lineItemsUpsell}/>)}
+              {this.state.cartItems.map((item, index) => <CartItem updateParentCartMetaData={this.updateCartMetaData.bind(this)} deleteItem={this.handleDeleteProject.bind(this)} key={index} cartItem={item} cartMeta={this.state.cartMeta}  lineItemsUpsell = {this.state.lineItemsUpsell}/>)}
               <ShoppingCartButtons showProceed={this.state.cartItems.length} />
             </form>
 

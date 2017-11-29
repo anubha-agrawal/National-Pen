@@ -3,32 +3,65 @@ import React, { Component } from "react";
 class CartItem extends Component {
     constructor(props) {
         super(props);
-        console.log("upsellCartObj", props);
+        console.log("upsellCartObj", props.cartItem.upsellId);
         if(props.cartItem.isUpsellAdded){
              this.state= {
                 title: "Remove from Order",
-                upsellTitle: "Upsell Offer Added"
+                upsellTitle: "Upsell Offer Added",
+                cartMeta: props.cartMeta,
+                upsellId: props.cartItem.upsellId
             }
         } else{
              this.state= {
                 title: "Add to Order",
-                upsellTitle: "Upsell Offer"
+                upsellTitle: "Upsell Offer",
+                cartMeta: props.cartMeta,
+                upsellId: props.cartItem.upsellId
              }
         }
     }
 
+    componentWillReceiveProps(nextProps){
+        console.log(
+            "!!!!!", nextProps.cartItem.upsellId
+        )
+        if(this.state.cartMeta != nextProps.cartMeta || this.state.upsellId != nextProps.cartItem.upsellId || props.cartItem!=nextProps.cartItem){
+            this.setState({
+                cartMeta: nextProps.cartMeta,
+                upsellId: nextProps.cartItem.upsellId
+            })
+        }
+    }
+
     handleDelete(e, id){
-        this.props.deleteItem(this.props.cartItem.id);
+        this.props.deleteItem(this.props.cartItem.id, this.state.cartMeta);
         e.preventDefault();
     }
 
     addToOrder() {
+        let upsellId = "";
         if(this.state.title == "Add to Order"){
-            console.log("this.props.lineItemsUpsell", this.props.lineItemsUpsell);
-            Abc.order.addItemsInCart(this.props.cartMeta, this.props.lineItemsUpsell).then(function(res){
+            console.log("this.props.lineItemsUpsell **************", this.props.lineItemsUpsell);
+            Abc.order.addItemsInCart(this.state.cartMeta, this.props.lineItemsUpsell).then(function(res){
                 console.log('Updated Cart Data', res);
                 console.log('cartMeta', {id:res.id, version:res.version});
                 if (!res.error) {
+                        // for(let i=0;i<res.lineItems.length;i++){
+                        //     if(res.lineItems[i].custom.fields.lineItemType == "Upsell"){
+                        //         console.log("in 1");
+                        //         for(let j=0;j<res.lineItems.length; j++){
+                        //             console.log("in 2", res.lineItems[i].custom.fields.lineItemIdReference == res.lineItems[j].id)
+                        //             if(res.lineItems[i].custom.fields.lineItemIdReference == res.lineItems[j].id && res.lineItems[i].custom.fields.lineItemIdReference == this.props.lineItemsUpsell[0].customFields.lineItemIdReference){
+                        //                 upsellId = res.lineItems[i].id;
+                        //                 console.log("^^^^upsellId", upsellId);
+                        //                 this.setState({upsellId: upsellId})
+                        //             }
+                        //         }
+                        //     }
+                        // }
+                    let cartMetaData = {id:res.id, version:res.version}
+                    this.props.updateParentCartMetaData(cartMetaData, res);
+                    this.setState({cartMeta: {id:res.id, version:res.version}})
                     this.props.cartItem.isUpsellAdded = true;
                     this.setState({ title: "Remove from Order",
                         upsellTitle: "Upsell Offer Added" });
@@ -40,15 +73,20 @@ class CartItem extends Component {
             
             //api call to actually add to order
         } else{
-            console.log("this.props.cartItem.upsellId", [this.props.cartItem.upsellId])
-            Abc.order.removeCartItems(this.props.cartMeta, [this.props.cartItem.upsellId]).then(res1 => {
+            console.log("this.props.cartItem.upsellId", [this.state.upsellId]);
+            console.log("this.state.cartMeta", this.state.cartMeta)
+            Abc.order.removeCartItems(this.state.cartMeta, [this.state.upsellId]).then(res1 => {
             if (!res1.error) {
                 console.log("done")
+                this.setState({cartMeta: {id:res1.id, version:res1.version}})
                 this.setState({title: "Add to Order",
                         upsellTitle: "Upsell Offer"});
+                let cartMetaData = {id:res1.id, version:res1.version}
+                this.props.updateParentCartMetaData(cartMetaData, res1);
             }
             if (res1.statusCode == 404) { // res.statusCode == 404 if no cart exists
                 console.log(res1)
+                this.setState({cartMeta: {id:res1.id, version:res1.version}})
                 this.setState({title: "Add to Order",
                         upsellTitle: "Upsell Offer"});
             }
