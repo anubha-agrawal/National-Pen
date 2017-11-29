@@ -121,6 +121,7 @@ class CartItem extends Component {
             upsellTitle = "Upsell Offer";
             isUpsellQuantityAdded = false;
         }
+        let totalUpsellCount = (this.props.cartItem.upsellQuantity * this.props.cartItem.upsellPrice).toFixed(2);
         return (
             <div>
             { !this.props.isProductReadonlyView
@@ -230,7 +231,7 @@ class CartItem extends Component {
                                     {this.props.cartItem.currencyCode} 0<br/>
                                     { isUpsellQuantityAdded 
                                     ?  
-                                        <p> {this.props.cartItem.currencyCode} {this.props.cartItem.upsellQuantity * this.props.cartItem.upsellPrice}</p>
+                                        <p> {this.props.cartItem.currencyCode} {totalUpsellCount}</p>
                                     : null
                                     }
                                     
