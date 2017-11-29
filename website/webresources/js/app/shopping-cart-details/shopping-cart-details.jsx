@@ -31,23 +31,10 @@ class ShoppingCartDetails extends Component {
         this.setState({ fullCart: res, isLoader: false, cartMeta: cartMeta, 
                       lineItemsUpsell: lineItemsUpsell});
 
-    //   Abc.order.removeCartItems(this.state.cartMeta, ["dd7563c1-d99f-4c9b-bcec-d63116349162"]).then(res1 => {
-    //   if (!res1.error) {
-    //     let item = this.state.cartItems;
-    //     let index = item.findIndex(x => x.id === id);
-    //     item.splice(index, 1);
-    //     this.setState({ cartItems: item });
-
-    //   }
-    //   if (res1.statusCode == 404) { // res.statusCode == 404 if no cart exists
-    //     console.log(res)
-    //   }
-    //   console.log('New Cart Data', JSON.stringify(res1));
-    //   console.log('cartMeta', { id: res1.id, version: res1.version });
-    // });
-
+    
       }
-      if (res.statusCode == 404) { // res.statusCode == 404 if no cart exists
+      if (res.statusCode == 404) { 
+        // res.statusCode == 404 if no cart exists
         //no items in cart
         this.setState({ isLoader: false });
       }
@@ -238,7 +225,7 @@ class ShoppingCartDetails extends Component {
         </div>
         {/* /.col-md-9*/}
         <div className="col-md-3">
-          {cartItems.length ? <OrderSummaryBox orderDetails={orderDetails} /> : ""}
+          {cartItems.length ? <OrderSummaryBox orderDetails={orderDetails} isShippingChargesView="false" /> : ""}
 
         </div>
         {/* /.col-md-3 */}

@@ -30,6 +30,10 @@ h1 {
 }
 
 /* Generic Stylesheet */
+.relative-container{
+  position: relative;
+}
+
 .primary-text{
   color: #41b39c;
 }
@@ -45,6 +49,10 @@ h1 {
 .inline-form-button label{
   opacity: 0;
 }
+.caps{
+  text-transform: uppercase;
+}
+
 /*******/
 
 /* Product summary Stylesheet */
@@ -77,7 +85,18 @@ h1 {
   font-weight: 500;
   
 }
+#content #order-summary-guest table td{
+  color: #999999;
+}
+#content #order-summary-guest table tr.total td, #content #order-summary-guest table tr.total th {
+  font-size: 18px;
+  color: #555555;
+  font-weight: 700;
+}
 
+.product-view{
+  overflow: hidden;
+}
 /****/
 
 
@@ -145,7 +164,8 @@ h1 {
   z-index: 999;
   height: 100%;
   width: 100%;
-  overflow: show;
+  overflow: hidden;
+  min-height: 100%;
   margin: auto;
   top: 0;
   left: 0;

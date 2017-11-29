@@ -32,17 +32,23 @@ class OrderSummaryBox extends Component {
                         <div className="box-header">
                             <h3>Order summary</h3>
                         </div>
-                        <p className="text-muted">If you have a coupon code, please enter it in the box below.</p>
-                        <div className="input-group">
+                        { !this.props.isProductReadonlyView
+                        ?
+                                <div>
+                                    <p className="text-muted">If you have a coupon code, please enter it in the box below.</p>
+                                    <div className="input-group">
 
-                                <input type="text" className="form-control" />
+                                        <input type="text" className="form-control" />
 
-                                <span className="input-group-btn">
+                                        <span className="input-group-btn">
 
-                                    <button className="btn btn-primary" type="button"><i className="fa fa-gift"></i></button>
+                                            <button className="btn btn-primary" type="button"><i className="fa fa-gift"></i></button>
 
-                                </span>
-                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+                            : null
+                        }
 
                         <div className="table-responsive">
                             <table className="table">
@@ -51,18 +57,26 @@ class OrderSummaryBox extends Component {
                                         <td>Order subtotal</td>
                                         <th>{this.props.orderDetails.currencyCode} {this.state.subTotal}</th>
                                     </tr>
-                                    <tr>
-                                        <td>Shipping Charge</td>
-                                        <th>{this.props.orderDetails.currencyCode} {this.state.shippingCharge}</th>
-                                    </tr>
+                                    { !this.props.isShippingChargesView 
+                                        ?   <tr>
+                                                <td>Shipping Charge</td>
+                                                <th>{this.props.orderDetails.currencyCode} {this.state.shippingCharge}</th>
+                                            </tr>
+                                        : null
+                                    }
+                                      
                                     <tr>
                                         <td>Setup Charge</td>
                                         <th>{this.props.orderDetails.currencyCode} {this.state.setupCharge}</th>
                                     </tr>
-                                    <tr>
-                                        <td>VAT</td>
-                                        <th>{this.props.orderDetails.currencyCode} {this.state.VAT}</th>
-                                    </tr>
+                                    { !this.props.isShippingChargesView 
+                                        ?  
+                                            <tr>
+                                                <td>VAT</td>
+                                                <th>{this.props.orderDetails.currencyCode} {this.state.VAT}</th>
+                                            </tr>
+                                        : null
+                                    }
                                     <tr>
                                         <td>Discount</td>
                                         <th>{this.props.orderDetails.currencyCode} {this.state.discount}</th>

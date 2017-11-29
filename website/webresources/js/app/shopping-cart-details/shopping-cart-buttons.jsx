@@ -8,7 +8,8 @@ class ShoppingCartButtons extends Component {
 
     proceedToOrderSummary(){
         console.log("in")
-        window.href = "/order-summary-guest";
+        window.location.href = "order-summary-guest";
+        
     }
 
     render() {

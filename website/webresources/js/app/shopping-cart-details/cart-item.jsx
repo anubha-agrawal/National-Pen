@@ -4,21 +4,19 @@ class CartItem extends Component {
     constructor(props) {
         super(props);
         console.log("upsellCartObj", props.cartItem.upsellId);
+        
         if(props.cartItem.isUpsellAdded){
              this.state= {
-                title: "Remove from Order",
-                upsellTitle: "Upsell Offer Added",
                 cartMeta: props.cartMeta,
                 upsellId: props.cartItem.upsellId
             }
         } else{
              this.state= {
-                title: "Add to Order",
-                upsellTitle: "Upsell Offer",
                 cartMeta: props.cartMeta,
                 upsellId: props.cartItem.upsellId
              }
         }
+        
     }
 
     
@@ -44,7 +42,7 @@ class CartItem extends Component {
 
     addToOrder() {
         let upsellId = "";
-        if(this.state.title == "Add to Order"){
+        if(!this.props.cartItem.isUpsellAdded){
             
             let currentLineItemUpsell = this.props.lineItemsUpsell.find((lineItem) => {
                 return lineItem.mainItemId === this.props.cartItem.id
@@ -91,16 +89,16 @@ class CartItem extends Component {
             if (!res1.error) {
                 console.log("done")
                 this.setState({cartMeta: {id:res1.id, version:res1.version}})
-                this.setState({title: "Add to Order",
-                        upsellTitle: "Upsell Offer"});
+                /*this.setState({title: "Add to Order",
+                        upsellTitle: "Upsell Offer"});*/
                 let cartMetaData = {id:res1.id, version:res1.version}
                 this.props.updateParentCartMetaData(cartMetaData, res1);
             }
             if (res1.statusCode == 404) { // res.statusCode == 404 if no cart exists
                 console.log(res1)
                 this.setState({cartMeta: {id:res1.id, version:res1.version}})
-                this.setState({title: "Add to Order",
-                        upsellTitle: "Upsell Offer"});
+                /*this.setState({title: "Add to Order",
+                        upsellTitle: "Upsell Offer"});*/
             }
             console.log('New Cart Data', JSON.stringify(res1));
             console.log('cartMeta', { id: res1.id, version: res1.version });
@@ -111,55 +109,145 @@ class CartItem extends Component {
         }
     };
     render() {
+        let title = '';
+        let upsellTitle = '';
+        let isUpsellQuantityAdded = false;
+        if(this.props.cartItem.isUpsellAdded){
+            title = "Remove from Order";
+            upsellTitle = "Upsell Offer Added";
+            isUpsellQuantityAdded = true;
+        }else{
+            title = "Add to Order";
+            upsellTitle = "Upsell Offer";
+            isUpsellQuantityAdded = false;
+        }
         return (
+            <div>
+            { !this.props.isProductReadonlyView
+            ?   
+                    <div className="table-responsive cartItem">
+                                        <table className="table">
+                                            <thead>
+                                                <tr>
+                                                    <th colSpan="2">Product</th>
+                                                    <th>Quantity</th>
+                                                    <th>Unit price</th>
+                                                    <th>Free Quantity</th>
+                                                    <th colSpan="2">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <a href="#">
+                                                            <img src=".resources/website/webresources/img/product1.jpg" alt="White Blouse Armani" />
+                                                        </a>
+                                                    </td>
+                                                    <td title={this.props.cartItem.productName} className="itemNameTd">
+                                                        <a href="#">{this.props.cartItem.productName}</a>
+                                                        {
+                                                            Object.keys(this.props.cartItem.userSelections).map( (value, index) => {
+                                                                return(
+                                                                    <p key={index} title={this.props.cartItem.userSelections[value]}>{value} : {Object.values(this.props.cartItem.userSelections[value])}</p>
+                                                                )
+                                                            })
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        {this.props.cartItem.quantity}
+                                                    </td>
+                                                    <td>{this.props.cartItem.currencyCode} {this.props.cartItem.unitPrice}</td>
+                                                    <td>{this.props.cartItem.freeQuantity}</td>
+                                                    <td>{this.props.cartItem.currencyCode} {this.props.cartItem.total}</td>
+                                                    <td><a href="#" onClick={this.handleDelete.bind(this)}><i className="fa fa-trash-o"></i></a>
+                                                    </td>
+                                                </tr>
 
-            <div className="table-responsive cartItem">
-                                <table className="table">
-                                    <thead>
-                                        <tr>
-                                            <th colSpan="2">Product</th>
-                                            <th>Quantity</th>
-                                            <th>Unit price</th>
-                                            <th>Free Quantity</th>
-                                            <th colSpan="2">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <a href="#">
-                                                    <img src=".resources/website/webresources/img/product1.jpg" alt="White Blouse Armani" />
-                                                </a>
-                                            </td>
-                                            <td title={this.props.cartItem.productName} className="itemNameTd">
-                                                <a href="#">{this.props.cartItem.productName}</a>
-                                                {
-                                                    Object.keys(this.props.cartItem.userSelections).map( (value, index) => {
-                                                        return(
-                                                            <p title={this.props.cartItem.userSelections[value]}>{value} : {Object.values(this.props.cartItem.userSelections[value])}</p>
-                                                        )
-                                                    })
-                                                }
-                                            </td>
-                                            <td>
-                                                {this.props.cartItem.quantity}
-                                            </td>
-                                            <td>{this.props.cartItem.currencyCode} {this.props.cartItem.unitPrice}</td>
-                                            <td>{this.props.cartItem.freeQuantity}</td>
-                                            <td>{this.props.cartItem.currencyCode} {this.props.cartItem.total}</td>
-                                            <td><a href="#" onClick={this.handleDelete.bind(this)}><i className="fa fa-trash-o"></i></a>
-                                            </td>
-                                        </tr>
+                                            </tbody>
 
-                                    </tbody>
+                                        </table>
+                                        <div className="upsell-offer-box col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                            <p><b>{upsellTitle}</b><br /> {this.props.cartItem.upsellQuantity} Paragon Pens @ {this.props.cartItem.currencyCode} {this.props.cartItem.upsellPrice} each. <button type="button" onClick={this.addToOrder.bind(this)} className="btn btn-default pull-right">{title}</button></p>
 
-                                </table>
-                                <div className="upsell-offer-box col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                    <p><b>{this.state.upsellTitle}</b><br /> {this.props.cartItem.upsellQuantity} Paragon Pens @ {this.props.cartItem.currencyCode} {this.props.cartItem.upsellPrice} each.<div className="pull-right"><button type="button" onClick={this.addToOrder.bind(this)} className="btn btn-default">{this.state.title}</button></div></p>
+                                        </div>
 
-                                </div>
+                    </div>
+            :  
+                <div className="table-responsive cartItem">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th colSpan="2">Product</th>
+                                <th>Quantity</th>
+                                <th>Unit price</th>
+                            {/*  <th>Free Quantity</th> */}
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a href="#">
+                                        <img src=".resources/website/webresources/img/product1.jpg" alt="White Blouse Armani" />
+                                    </a>
+                                </td>
+                                <td title={this.props.cartItem.productName} className="itemNameTd">
+                                    <a href="#">{this.props.cartItem.productName}</a>
+                                    {
+                                        Object.keys(this.props.cartItem.userSelections).map( (value, index) => {
+                                            return(
+                                                <p  key={index} title={this.props.cartItem.userSelections[value]}>{value} : {Object.values(this.props.cartItem.userSelections[value])}</p>
+                                            )
+                                        })
+                                    }
+                                </td>
+                                <td>
+                                    {this.props.cartItem.quantity}<br/>
+                                    {this.props.cartItem.freeQuantity} <b>(Free)</b><br/>
+                                    
+                                     
+                                    { isUpsellQuantityAdded 
+                                    ?  
+                                        <p> {this.props.cartItem.upsellQuantity} (Upsell)</p>
+                                    : null
+                                    }
+                                    
+                                    
+                                </td>
+                                <td>
+                                    {this.props.cartItem.currencyCode} {this.props.cartItem.unitPrice}<br/>
+                                    {this.props.cartItem.currencyCode} 0<br/>
+                                    { isUpsellQuantityAdded 
+                                    ?  
+                                        <p> {this.props.cartItem.currencyCode} {this.props.cartItem.upsellPrice}</p>
+                                    : null
+                                    }
+                                    
+                                </td>
+                                {/* <td>{this.props.cartItem.freeQuantity}</td> */}
+                                <td>
+                                    {this.props.cartItem.currencyCode} {this.props.cartItem.total}<br/>
+                                    {this.props.cartItem.currencyCode} 0<br/>
+                                    { isUpsellQuantityAdded 
+                                    ?  
+                                        <p> {this.props.cartItem.currencyCode} {this.props.cartItem.upsellQuantity * this.props.cartItem.upsellPrice}</p>
+                                    : null
+                                    }
+                                    
+                                </td>
+                                
+                            </tr>
 
-            </div>
+                        </tbody>
+
+                    </table>
+                    
+
+                </div>
+        }
+    
+
+        </div>
         );
     }
 }

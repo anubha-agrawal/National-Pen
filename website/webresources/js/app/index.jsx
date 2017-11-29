@@ -24,12 +24,14 @@ if(shoppingCartDetail) {
 
 let orderSummaryGuest = document.getElementById('order-summary-guest');
 if(orderSummaryGuest) {
-    ReactDOM.render(<OrderSummaryGuest />, document.getElementById('order-summary-guest'));
+    ReactDOM.render(<OrderSummaryGuest 
+    locale_details={window.locale_details} />, document.getElementById('order-summary-guest'));
 }
 let orderSummary = document.getElementById('order-summary');
 if(orderSummary) {
     ReactDOM.render(<OrderSummary />, document.getElementById('order-summary'));
 }
+
 let miniBasket = document.getElementById('mini-basket');
 if(miniBasket) {
     ReactDOM.render(<MiniBasket />, document.getElementById('mini-basket'));
