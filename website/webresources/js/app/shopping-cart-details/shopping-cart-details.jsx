@@ -20,6 +20,7 @@ class ShoppingCartDetails extends Component {
     Abc.order.getCart(window.user_id, false).then(function (res) {
       isLoader: false;
       let cartItem = {}, orderDetail = {}, lineItemsUpsell=[];
+
       let cartArray = [];
       if (res.id) {        // Valid Cart, Store it for further use   
         console.log("sandeep7-0515-4ba8-be12-5aef76be8225", res)
@@ -34,16 +35,18 @@ class ShoppingCartDetails extends Component {
               "unitPrice": res.lineItems[i].totalPrice.centAmount / res.lineItems[i].quantity / 100,
               "userSelections": userSelections,
               "currencyCode": getSymbolFromCurrency(res.lineItems[i].price.value.currencyCode),
-              "total": res.lineItems[i].totalPrice.centAmount / 100
+              "total": res.lineItems[i].totalPrice.centAmount / 100,
             }
             cartArray.push(cartItem);
           } else if (res.lineItems[i].custom.fields.lineItemType == "Upsell") {
             for (let k = 0; k < cartArray.length; k++) {
+
               if (cartArray[k].id == res.lineItems[i].custom.fields.lineItemIdReference) {
                 cartArray[k].upsellQuantity = res.lineItems[i].quantity;
                 cartArray[k].upsellPrice = res.lineItems[i].price.value.centAmount / 100;
                 cartArray[k].isUpsellAdded = true;
                 cartArray[k].upsellId = res.lineItems[i].id;
+
               }
             }
           } else if (res.lineItems[i].custom.fields.lineItemType == "Free") {
@@ -70,6 +73,7 @@ class ShoppingCartDetails extends Component {
           version: res.version
         }
 
+
         for (let m = 0; m < cartArray.length; m++) {
           if (!cartArray[m].hasOwnProperty("upsellQuantity")) {
             for (let i = 0; i < res.lineItems.length; i++) {
@@ -89,11 +93,11 @@ class ShoppingCartDetails extends Component {
                   variantId: res.lineItems[i].variant.id
               }];
 
-
               if (cartArray[m].id == res.lineItems[i].id) {
                 let upsellInfo = res.lineItems[i].price.custom.fields.UpSellQuantityAndPrice;
                 let upsellBreakup = [];
                 for (let z = 0; z < upsellInfo.length; z++) {
+
                   upsellBreakup = upsellInfo[z].split("::");
                   if (upsellBreakup[0] == cartArray[m].quantity) {
                     console.log("i am in")
@@ -111,14 +115,17 @@ class ShoppingCartDetails extends Component {
               lineItemsUpsell[0].quantity = parseInt(cartArray[m].upsellQuantity);
               console.log("test 1",lineItemsUpsell)
               lineItemsUpsell[0].externalTotalCentAmount = cartArray[m].upsellPrice * parseInt(cartArray[m].upsellQuantity);
+
             }
 
           }
         }
 
+
         console.log("test ",lineItemsUpsell)
         this.setState({ cartItems: cartArray, orderDetails: orderDetail, fullCart: res, isLoader: false, cartMeta: cartMeta, 
                       lineItemsUpsell: lineItemsUpsell});
+
 
         cartArray = [];
     //   Abc.order.removeCartItems(this.state.cartMeta, ["dd7563c1-d99f-4c9b-bcec-d63116349162"]).then(res1 => {
@@ -205,7 +212,9 @@ class ShoppingCartDetails extends Component {
             <form method="post" action="checkout1.html">
               <h1>Shopping cart</h1>
               <p className="text-muted">You currently have {this.state.cartItems.length} item(s) in your cart.</p>
+
               {this.state.cartItems.map((item, index) => <CartItem updateParentCartMetaData={this.updateCartMetaData.bind(this)} deleteItem={this.handleDeleteProject.bind(this)} key={index} cartItem={item} cartMeta={this.state.cartMeta}  lineItemsUpsell = {this.state.lineItemsUpsell}/>)}
+
               <ShoppingCartButtons showProceed={this.state.cartItems.length} />
             </form>
 

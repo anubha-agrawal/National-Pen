@@ -3,7 +3,7 @@ import React, { Component } from "react";
 class CartItem extends Component {
     constructor(props) {
         super(props);
-        console.log("upsellCartObj", props.cartItem.upsellId);
+
         if(props.cartItem.isUpsellAdded){
              this.state= {
                 title: "Remove from Order",
@@ -64,6 +64,7 @@ class CartItem extends Component {
                     this.setState({cartMeta: {id:res.id, version:res.version}})
                     this.props.cartItem.isUpsellAdded = true;
                     this.setState({ title: "Remove from Order",
+
                         upsellTitle: "Upsell Offer Added" });
                 } if (res.statusCode == 404) { // res.statusCode == 404 if no cart exists
                     console.log("res in error", res);
