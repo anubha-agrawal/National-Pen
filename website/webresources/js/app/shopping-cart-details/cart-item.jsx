@@ -3,7 +3,7 @@ import React, { Component } from "react";
 class CartItem extends Component {
     constructor(props) {
         super(props);
-
+        console.log("upsellCartObj", props.cartItem.upsellId);
         if(props.cartItem.isUpsellAdded){
              this.state= {
                 title: "Remove from Order",
@@ -21,16 +21,20 @@ class CartItem extends Component {
         }
     }
 
+    
+
     componentWillReceiveProps(nextProps){
         console.log(
             "!!!!!", nextProps.cartItem.upsellId
         )
+        /*
         if(this.state.cartMeta != nextProps.cartMeta || this.state.upsellId != nextProps.cartItem.upsellId || props.cartItem!=nextProps.cartItem){
             this.setState({
                 cartMeta: nextProps.cartMeta,
                 upsellId: nextProps.cartItem.upsellId
             })
         }
+        */
     }
 
     handleDelete(e, id){
@@ -41,8 +45,12 @@ class CartItem extends Component {
     addToOrder() {
         let upsellId = "";
         if(this.state.title == "Add to Order"){
-            console.log("this.props.lineItemsUpsell **************", this.props.lineItemsUpsell);
-            Abc.order.addItemsInCart(this.state.cartMeta, this.props.lineItemsUpsell).then(function(res){
+            
+            let currentLineItemUpsell = this.props.lineItemsUpsell.find((lineItem) => {
+                return lineItem.mainItemId === this.props.cartItem.id
+            })
+            console.log("this.props.lineItemsUpsell **************", currentLineItemUpsell);
+            Abc.order.addItemsInCart(this.props.cartMeta, [currentLineItemUpsell]).then(function(res){
                 console.log('Updated Cart Data', res);
                 console.log('cartMeta', {id:res.id, version:res.version});
                 if (!res.error) {
@@ -60,12 +68,12 @@ class CartItem extends Component {
                         //     }
                         // }
                     let cartMetaData = {id:res.id, version:res.version}
-                    this.props.updateParentCartMetaData(cartMetaData, res);
-                    this.setState({cartMeta: {id:res.id, version:res.version}})
                     this.props.cartItem.isUpsellAdded = true;
-                    this.setState({ title: "Remove from Order",
-
-                        upsellTitle: "Upsell Offer Added" });
+                    this.setState({ 
+                        title: "Remove from Order",
+                        upsellTitle: "Upsell Offer Added"
+                    });
+                    this.props.updateParentCartMetaData(cartMetaData, res);
                 } if (res.statusCode == 404) { // res.statusCode == 404 if no cart exists
                     console.log("res in error", res);
                 }
@@ -74,9 +82,12 @@ class CartItem extends Component {
             
             //api call to actually add to order
         } else{
-            console.log("this.props.cartItem.upsellId", [this.state.upsellId]);
-            console.log("this.state.cartMeta", this.state.cartMeta)
-            Abc.order.removeCartItems(this.state.cartMeta, [this.state.upsellId]).then(res1 => {
+            console.log("this.props.cartItem.upsellId", [this.props.cartItem.upsellId]);
+            console.log("this.props.cartMeta", this.props.cartMeta)
+            let currentLineItemUpsell = this.props.lineItemsUpsell.find((lineItem) => {
+                return lineItem.mainItemId === this.props.cartItem.id
+            })
+            Abc.order.removeCartItems(this.props.cartMeta, [this.props.cartItem.upsellId]).then(res1 => {
             if (!res1.error) {
                 console.log("done")
                 this.setState({cartMeta: {id:res1.id, version:res1.version}})
