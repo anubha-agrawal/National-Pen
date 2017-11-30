@@ -23,11 +23,11 @@ class MiniBasketPopup extends Component{
 				   <ShoppingCartDetails miniBasketPopup={true} />
 			      </div>
 			      <div className="modal-footer">
-					 <div class="pull-left">
-						 <a href="home" class="btn btn-default"><i class="fa fa-chevron-left"></i> Continue shopping</a>
+					 <div className="pull-left">
+						 <a href="home" className="btn btn-default"><i className="fa fa-chevron-left"></i> Continue shopping</a>
 					 </div>
-					 <div class="pull-right">
-						 <button type="button" class="btn btn-primary">Proceed to checkout <i class="fa fa-chevron-right"></i></button>
+					 <div className="pull-right">
+						 <button type="button" className="btn btn-primary">Proceed to checkout <i className="fa fa-chevron-right"></i></button>
 					 </div>
 			      </div>
 			    </div>
