@@ -111,12 +111,12 @@ class CartItem extends Component {
         let upsellTitle = '';
         let isUpsellQuantityAdded = false;
         if(this.props.cartItem.isUpsellAdded) {
-            title = 'Remove from Order';
-            upsellTitle = 'Upsell Offer Added';
+            title = this.props.lang.removeUpsellBtn;
+            upsellTitle = this.props.lang.removeUpsellTitle;
             isUpsellQuantityAdded = true;
         }else{
-            title = 'Add to Order';
-            upsellTitle = 'Upsell Offer';
+            title = this.props.lang.addUpsellBtn;
+            upsellTitle = this.props.lang.addUpsellTitle;
             isUpsellQuantityAdded = false;
         }
         let totalUpsellCount = (this.props.cartItem.upsellQuantity * this.props.cartItem.upsellPrice).toFixed(2);
@@ -129,11 +129,11 @@ class CartItem extends Component {
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <th colSpan="2">Product</th>
-                                    <th>Quantity</th>
-                                    <th>Unit price</th>
-                                    <th>Free Quantity</th>
-                                    <th colSpan="2">Total</th>
+                                    <th colSpan="2">{this.props.lang.tableHeaderOne}</th>
+                                    <th>{this.props.lang.tableHeaderTwo}</th>
+                                    <th>{this.props.lang.tableHeaderThree}</th>
+                                    <th>{this.props.lang.tableHeaderFour}</th>
+                                    <th colSpan="2">{this.props.lang.tableHeaderFive}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -167,7 +167,7 @@ class CartItem extends Component {
 
                         </table>
                         <div className="upsell-offer-box col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                            <p><b>{upsellTitle}</b><br /> {this.props.cartItem.upsellQuantity} Paragon Pens @ {this.props.cartItem.currencyCode} {this.props.cartItem.upsellPrice} each. <button type="button" onClick={this.addToOrder.bind(this)} className="btn btn-default pull-right">{title}</button></p>
+                            <p><b>{upsellTitle}</b><br /> {this.props.cartItem.upsellQuantity} {this.props.lang.item} {this.props.cartItem.currencyCode} {this.props.cartItem.upsellPrice} {this.props.lang.priceEach} <button type="button" onClick={this.addToOrder.bind(this)} className="btn btn-default pull-right">{title}</button></p>
 
                         </div>
 
@@ -177,11 +177,11 @@ class CartItem extends Component {
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <th colSpan="2">Product</th>
-                                    <th>Quantity</th>
-                                    <th>Unit price</th>
+                                    <th colSpan="2">{this.props.lang.tableHeaderTwo}</th>
+                                    <th>{this.props.lang.tableHeaderTwo}</th>
+                                    <th>{this.props.lang.tableHeaderTwo}</th>
                                     {/*  <th>Free Quantity</th> */}
-                                    <th>Total</th>
+                                    <th>{this.props.lang.tableHeaderTwo}</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -214,12 +214,12 @@ class ShoppingCartDetails extends Component {
                     <div className="box">
 
                         <form method="post" action="checkout1.html">
-                            {this.props.miniBasketPopup==false?<h1>Shopping cart</h1>:''}
-                            <p className="text-muted">You currently have {cartItems.length} item(s) in your cart.</p>
-                            {cartItems.map((item, index) => <CartItem key={index} updateParentCartMetaData={this.updateCartMetaData.bind(this)} deleteItem={this.handleDeleteProject.bind(this)} key={index} cartItem={item} cartMeta={this.state.cartMeta}  lineItemsUpsell = {this.getLineItemUpsell(item, this.state.fullCart)}/>)}
+                            {this.props.miniBasketPopup==false?<h1>{this.props.lang.pageTitle}</h1>:''}
+                            <p className="text-muted">{this.props.lang.currentItemBefore} {cartItems.length} {this.props.lang.currentItemAfter}</p>
+                            {cartItems.map((item, index) => <CartItem key={index} lang={this.props.lang} updateParentCartMetaData={this.updateCartMetaData.bind(this)} deleteItem={this.handleDeleteProject.bind(this)} key={index} cartItem={item} cartMeta={this.state.cartMeta}  lineItemsUpsell = {this.getLineItemUpsell(item, this.state.fullCart)}/>)}
 
                             {this.props.miniBasketPopup==false?
-                                <ShoppingCartButtons showProceed={cartItems.length} />
+                                <ShoppingCartButtons lang={this.props.lang} showProceed={cartItems.length} />
                                 :<div className="clear"></div>}
                         </form>
 
@@ -230,7 +230,7 @@ class ShoppingCartDetails extends Component {
                 {/* /.col-md-9*/}
                 {this.props.miniBasketPopup==false?
                     <div className="col-md-3">
-                        {cartItems.length ? <OrderSummaryBox orderDetails={orderDetails} isShippingChargesView="false" /> : ''}
+                        {cartItems.length ? <OrderSummaryBox lang={this.props.lang} orderDetails={orderDetails} isShippingChargesView="false" /> : ''}
                     </div>
                     :''}
                 {/* /.col-md-3 */}

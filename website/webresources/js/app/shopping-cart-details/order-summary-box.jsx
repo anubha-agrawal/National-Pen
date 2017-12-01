@@ -30,12 +30,12 @@ class OrderSummaryBox extends Component {
         return (
             <div className="box" id="order-summary">
                 <div className="box-header">
-                    <h3>Order summary</h3>
+                    <h3>{this.props.lang.orderSummaryTitle}</h3>
                 </div>
                 { !this.props.isProductReadonlyView
                     ?
                     <div>
-                        <p className="text-muted">If you have a coupon code, please enter it in the box below.</p>
+                        <p className="text-muted">{this.props.lang.couponText}</p>
                         <div className="input-group">
 
                             <input type="text" className="form-control" />
@@ -54,35 +54,35 @@ class OrderSummaryBox extends Component {
                     <table className="table">
                         <tbody>
                             <tr>
-                                <td>Order subtotal</td>
+                                <td>{this.props.lang.orderSubtotal}</td>
                                 <th>{this.props.orderDetails.currencyCode} {this.state.subTotal}</th>
                             </tr>
                             { !this.props.isShippingChargesView 
                                 ?   <tr>
-                                    <td>Shipping Charge</td>
+                                    <td>{this.props.lang.shipping}</td>
                                     <th>{this.props.orderDetails.currencyCode} {this.state.shippingCharge}</th>
                                 </tr>
                                 : null
                             }
                                       
                             <tr>
-                                <td>Setup Charge</td>
+                                <td>{this.props.lang.setup}</td>
                                 <th>{this.props.orderDetails.currencyCode} {this.state.setupCharge}</th>
                             </tr>
                             { !this.props.isShippingChargesView 
                                 ?  
                                 <tr>
-                                    <td>VAT</td>
+                                    <td>{this.props.lang.vat}</td>
                                     <th>{this.props.orderDetails.currencyCode} {this.state.VAT}</th>
                                 </tr>
                                 : null
                             }
                             <tr>
-                                <td>Discount</td>
+                                <td>{this.props.lang.discount}</td>
                                 <th>{this.props.orderDetails.currencyCode} {this.state.discount}</th>
                             </tr>
                             <tr className="total">
-                                <td>Total Price</td>
+                                <td>{this.props.lang.total}</td>
                                 <th>{this.props.orderDetails.currencyCode} {this.state.total}</th>
                             </tr>
                         </tbody>

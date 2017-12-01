@@ -21,7 +21,7 @@ if(productDetail) {
 
 let shoppingCartDetail = document.getElementById('shopping-cart-details');
 if(shoppingCartDetail) {
-    ReactDOM.render(<ShoppingCartDetails miniBasketPopup={false} />, document.getElementById('shopping-cart-details'));
+    ReactDOM.render(<ShoppingCartDetails lang={window.shopping_cart_details} miniBasketPopup={false} />, document.getElementById('shopping-cart-details'));
 }
 
 let orderSummaryGuest = document.getElementById('order-summary-guest');
@@ -53,5 +53,5 @@ if(miniBasket) {
 
 let miniBasketPopup = document.getElementById('mini-basket-popup');
 if(miniBasketPopup) {
-    ReactDOM.render(<MiniBasketPopup header='Cart Details' />, document.getElementById('mini-basket-popup'));
+    ReactDOM.render(<MiniBasketPopup lang={window.shopping_cart_details} header='Cart Details' />, document.getElementById('mini-basket-popup'));
 }
