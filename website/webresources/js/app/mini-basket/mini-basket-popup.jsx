@@ -33,7 +33,7 @@ class MiniBasketPopup extends Component{
 			        <h4 className="modal-title">{this.props.header}</h4>
 			      </div>
 			      <div className="modal-body">
-				   <ShoppingCartDetails lang={this.props.lang} miniBasketPopup={true} />
+				   <ShoppingCartDetails locale_details={this.props.locale_details} lang={this.props.lang} miniBasketPopup={true} />
 			      </div>
 			      <div className="modal-footer">
 					 <div className="pull-right">

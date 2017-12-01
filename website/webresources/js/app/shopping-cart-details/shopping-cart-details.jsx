@@ -16,14 +16,14 @@ class ShoppingCartDetails extends Component {
             isLoader: true
         };
     }
+    
     componentWillMount() {
         Abc.order.getCart(window.user_id, false).then(res => {
             false;
             let cartItem = {}, orderDetail = {}, lineItemsUpsell=[];
 
             if (res.id) {        // Valid Cart, Store it for further use
-                console.log('sandeep7-0515-4ba8-be12-5aef76be8225', res);
-                console.log('test ', lineItemsUpsell);
+
                 let cartMeta = {
                     id: res.id,
                     version: res.version
@@ -40,22 +40,17 @@ class ShoppingCartDetails extends Component {
         });
     }
     handleDeleteProject(id) {
-        console.log('%%%%%');
         let lineItemIdArray = [];
         let lineItemsId = {};
         let cart = this.state.fullCart; // Full Cart Object from last response.
         lineItemIdArray.push(id);
         for (let i = 0; i < cart.lineItems.length; i++) {
-            console.log('in frst loop', cart.lineItems[i]);
             if (cart.lineItems[i].custom.fields.lineItemType.toLowerCase() == 'upsell' || cart.lineItems[i].custom.fields.lineItemType.toLowerCase() == 'free') {
-                console.log('id', id);
                 if (cart.lineItems[i].custom.fields.lineItemIdReference == id) {
-                    console.log('in loop', cart.lineItems[i].id);
                     lineItemIdArray.push(cart.lineItems[i].id);
                 }
             }
         }
-        console.log('lineItemIdArray', lineItemIdArray);
         Abc.order.removeCartItems(this.state.cartMeta, lineItemIdArray).then(res1 => {
             if (!res1.error) {
                 //let item = this.state.cartItems;
@@ -69,7 +64,6 @@ class ShoppingCartDetails extends Component {
 
             }
             if (res1.statusCode == 404) { // res.statusCode == 404 if no cart exists
-                console.log(res);
                 this.setState({ cartMeta: { id:res1.id, version:res1.version } });
             }
             console.log('New Cart Data', JSON.stringify(res1));
@@ -78,22 +72,25 @@ class ShoppingCartDetails extends Component {
 
     }
     updateCartMetaData(metaObj, res) {
-        console.log('prateek ->>>>>>>>>>>>>>> ', res);
         this.setState({ cartMeta: metaObj, fullCart: res });
     }
 
-    processLineItem(res) {
+    processLineItem(res, localeDeails) {
+        console.log("in method", res)
+        let languageCode = localeDeails.language;
+        let currencyCode = localeDeails.currency;
+        let countryCode = localeDeails.country_code;
+        
         let cartArray = [];
         let cartItem = {};
         if(res) {
             for (let i = 0; i < res.lineItems.length; i++) {
-                console.log(res.lineItems[i]);
+                
                 if (res.lineItems[i].custom.fields.lineItemType == 'mainItem') {
                     let userSelections = Abc.order.setOfStringsToObject((res.lineItems[i].custom && res.lineItems[i].custom.fields.userSelection) ? res.lineItems[i].custom.fields.userSelection : []);
-
                     cartItem = {
                         'id': res.lineItems[i].id,
-                        'productName': res.lineItems[i].name.en,
+                        'productName': res.lineItems[i].name[languageCode],
                         'quantity': res.lineItems[i].quantity,
                         'unitPrice': res.lineItems[i].totalPrice.centAmount / res.lineItems[i].quantity / 100,
                         'userSelections': userSelections,
@@ -191,7 +188,7 @@ class ShoppingCartDetails extends Component {
     }
 
     render() {
-        let cartItems = this.processLineItem(this.state.fullCart);
+        let cartItems = this.processLineItem(this.state.fullCart, this.props.locale_details);
         let orderDetails = this.processLineItemForOrderDetails(this.state.fullCart);
 
         return (
