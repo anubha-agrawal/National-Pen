@@ -12,11 +12,11 @@ class OrderConfirmation extends Component {
       <div className="container top-gutter">
         <div className="panel panel-success">
             <div className="panel-heading">
-            <h2>Order Confirmation</h2></div>
+            <h2>{this.props.lang.heading}</h2></div>
             <div className="panel-body">
-                <h5>Your order has been successfully placed.</h5>
-                <h3>Order Id: {this.props.orderno}</h3>
-                <a href="home" className="btn btn-default"><i className="fa fa-chevron-left"></i> Continue shopping</a>
+                <h5>{this.props.lang.title}</h5>
+                <h3>{this.props.lang.orderid} {this.props.orderno}</h3>
+                <a href="home" className="btn btn-default"><i className="fa fa-chevron-left"></i> {this.props.lang.continue}</a>
             </div>
 
         </div>

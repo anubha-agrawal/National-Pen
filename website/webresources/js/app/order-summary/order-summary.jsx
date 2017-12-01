@@ -38,8 +38,8 @@ class OrderSummary extends Component {
                 /*******/
                 this.setState({ fullCart: res, isLoader: false, cartMeta: cartMeta, 
                     lineItemsUpsell: lineItemsUpsell });
-      
-            }
+                       
+            }   
             if (res.statusCode == 404) { 
                 // res.statusCode == 404 if no cart exists
                 //no items in cart
@@ -164,7 +164,7 @@ class OrderSummary extends Component {
     changeGenericHandler(key, value) {
         this.setState({ [key]: value });
     }
-
+    
     placeOrder() {
         this.changeGenericHandler('isLoader', true);
         console.log('place order calling...');
@@ -212,7 +212,7 @@ class OrderSummary extends Component {
                                         
                             <div className="row addresses">
                                 <div className="col-md-6">
-                                    <h3>Shipping Information</h3>
+                                    <h3>{this.props.lang.shipping_info}</h3>
                                     <p>
                                         <b>{this.state.shippingAddress.firstName} {this.state.shippingAddress.lastName}
                                             <br/><a href={`mailto:${ this.state.shippingAddress.email}`}>{this.state.shippingAddress.email}</a>
@@ -225,7 +225,7 @@ class OrderSummary extends Component {
                                     </p>
                                 </div>
                                 <div className="col-md-6">
-                                    <h3>Billing Information</h3>
+                                    <h3>{this.props.lang.billing_info}</h3>
                                     <p>
                                         <b>{this.state.billingAddress.firstName} {this.state.billingAddress.lastName}
                                             <br/><a href={`mailto:${ this.state.shippingAddress.email}`}>{this.state.billingAddress.email}</a>
@@ -240,7 +240,7 @@ class OrderSummary extends Component {
                             </div>
                             <div className="box-footer">
                                 <div className="pull-right">
-                                    <button type="submit" onClick={this.placeOrder.bind(this)} className="btn btn-primary">Checkout - Pay Later<i className="fa fa-chevron-right"></i>
+                                    <button type="submit" onClick={this.placeOrder.bind(this)} className="btn btn-primary">{this.props.lang.checkout_pay_later}<i className="fa fa-chevron-right"></i>
                                     </button>
                                 </div>
                             </div>

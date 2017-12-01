@@ -279,7 +279,7 @@ class OrderSummaryGuest extends Component {
                     <div className="col-xs-12">
                         <div className="box" >
                             <div className="box-header">
-                                <h1>Checkout</h1>
+                                <h1>{this.props.lang.checkout}</h1>
                             </div>
 
                             <div className="">
@@ -288,20 +288,20 @@ class OrderSummaryGuest extends Component {
                                     <div className="row">
                                         <div className="col-sm-4 col-xs-12">
                                             <div className="form-group">
-                                                <label htmlFor="username">Username</label>
-                                                <input type="text" className="form-control" id="username" placeholder="Username" value="" disabled/>
+                                                <label htmlFor="username">{this.props.lang.username}</label>
+                                                <input type="text" className="form-control" id="username" placeholder={this.props.lang.username} value="" disabled/>
                                             </div>
                                         </div>
                                         <div className="col-sm-4 col-xs-12">
                                             <div className="form-group">
-                                                <label htmlFor="password">Password</label>
-                                                <input type="password" className="form-control" id="password" placeholder="Password" value="" disabled />
+                                                <label htmlFor="password">{this.props.lang.password}</label>
+                                                <input type="password" className="form-control" id="password" placeholder={this.props.lang.password} value="" disabled />
                                             </div>
                                         </div>
                                         <div className="col-sm-4 col-xs-12">
                                             <div className="form-group">
-                                                <p className="inline-form-button"><label>Log in</label></p>
-                                                <button type="button" disabled className="btn btn-primary"><i className="fa fa-sign-in"></i> Log in</button>
+                                                <p className="inline-form-button"><label>{this.props.lang.login}</label></p>
+                                                <button type="button" disabled className="btn btn-primary"><i className="fa fa-sign-in"></i> {this.props.lang.login}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -322,139 +322,122 @@ class OrderSummaryGuest extends Component {
                             </div>
                             <hr/>
                             <form name="addressForm" onSubmit={this.AddAddressToCart}>
-                                <p className="text-muted">Address details</p>
-                                     <div className="row">
-                                                                                 <div className="col-sm-6 col-xs-12">
-                                                                                     <div className="form-group">
-                                                                                         <label htmlFor="firstName">First Name</label>
-                                                                                         <input
-                                                                                             type="text" className="form-control"
-                                                                                             id="firstName"
-                                                                                             onChange={this.changeAddressHandler}
-                                                                                             name="firstName"
-                                                                                             placeholder="First Name"
-                                                                                             value={this.state.firstName} ref={input => this._firstName = input}
-                                                                                             required/>
-                                                                                     </div>
+                                <p className="text-muted">{this.props.lang.address_heading}</p>
+                                <div className="row">
+                                    <div className="col-sm-6 col-xs-12">
+                                        <div className="form-group">
+                                            <label htmlFor="firstName">{this.props.lang.firstname}</label>
+                                            <input
+                                                type="text" className="form-control"
+                                                id="firstName"
+                                                onChange={this.changeAddressHandler}
+                                                name="firstName"
+                                                placeholder={this.props.lang.firstname}
+                                                value={this.state.firstName} required />
+                                        </div>
 
-                                                                                 </div>
-                                                                                 <div className="col-sm-6 col-xs-12">
-                                                                                     <div className="form-group">
-                                                                                         <label htmlFor="lastName">Last Name</label>
-                                                                                         <input type="text" className="form-control"
-                                                                                         id="lastName"
-                                                                                         onChange={this.changeAddressHandler}
-                                                                                         name="lastName"
-                                                                                         placeholder="Last Name"
-                                                                                         value={this.state.lastName}
-                                                                                         ref={input => this._lastName = input}
-                                                                                         required />
-                                                                                     </div>
-                                                                                 </div>
-                                                                                 <div className="col-sm-6 col-xs-12">
-                                                                                     <div className="form-group">
-                                                                                         <label htmlFor="email">Email Address</label>
-                                                                                         <input type="email" className="form-control"
-                                                                                         id="email"
-                                                                                         onChange={this.changeAddressHandler}
-                                                                                         name="email"
-                                                                                         placeholder="Email Address"
-                                                                                         value={this.state.email}
-                                                                                         ref={input => this._email = input}
-                                                                                         required
-                                                                                          />
-                                                                                     </div>
-                                                                                 </div>
-                                                                                 <div className="col-sm-6 col-xs-12">
-                                                                                     <div className="form-group">
-                                                                                         <label htmlFor="phone">Phone Number</label>
-                                                                                         <input type="number" className="form-control"
-                                                                                         id="phone"
-                                                                                         onChange={this.changeAddressHandler}
-                                                                                         name="phone"
-                                                                                         placeholder="Phone Number"
-                                                                                         value={this.state.phone}
-                                                                                         ref={input => this._phone = input}
-                                                                                         required
-                                                                                         />
-                                                                                     </div>
-                                                                                 </div>
-                                                                                 <div className="col-xs-12">
-                                                                                     <div className="form-group">
-                                                                                         <label htmlFor="shipingBillingAddress">
-                                                                                             <input type="checkbox" name="price" disabled defaultChecked value="shipingBillingAddress"
-                                                                                             id="shipingBillingAddress" /> Shiping and Billing Address
-                                                                                         </label>
-                                                                                     </div>
-                                                                                 </div>
+                                    </div>
+                                    <div className="col-sm-6 col-xs-12">
+                                        <div className="form-group">
+                                            <label htmlFor="lastName">{this.props.lang.lastname}</label>
+                                            <input type="text" className="form-control"
+                                                id="lastName"
+                                                onChange={this.changeAddressHandler}
+                                                name="lastName"
+                                                placeholder={this.props.lang.lastname}
+                                                value={this.state.lastName} required />
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-6 col-xs-12">
+                                        <div className="form-group">
+                                            <label htmlFor="email">{this.props.lang.email}</label>
+                                            <input type="email" className="form-control"
+                                                id="email"
+                                                onChange={this.changeAddressHandler}
+                                                name="email"
+                                                placeholder={this.props.lang.email}
+                                                value={this.state.email} required />
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-6 col-xs-12">
+                                        <div className="form-group">
+                                            <label htmlFor="phone">{this.props.lang.phone}</label>
+                                            <input type="number" className="form-control"
+                                                id="phone"
+                                                onChange={this.changeAddressHandler}
+                                                name="phone"
+                                                placeholder={this.props.lang.phone}
+                                                value={this.state.phone}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-xs-12">
+                                        <div className="form-group">
+                                            <label htmlFor="shipingBillingAddress">
+                                                <input type="checkbox" name="price" disabled defaultChecked value="shipingBillingAddress"
+                                                    id="shipingBillingAddress" /> {this.props.lang.sb_address}
+                                            </label>
+                                        </div>
+                                    </div>
 
+                                    <div className="col-xs-12">
+                                        <div className="form-group">
+                                            <label htmlFor="adrs1">{this.props.lang.addressline1}</label>
+                                            <input type="text" className="form-control"
+                                                id="adrs1"
+                                                onChange={this.changeAddressHandler}
+                                                name="streetName"
+                                                placeholder={this.props.lang.addressline1}
+                                                value={this.state.streetName} required/>
+                                        </div>
+                                    </div>
+                                    <div className="col-xs-12">
+                                        <div className="form-group">
+                                            <label htmlFor="adrs2">{this.props.lang.addressline2}</label>
+                                            <input type="text" className="form-control" id="adrs2"
+                                                onChange={this.changeAddressHandler}
+                                                name="additionalStreetInfo"
+                                                placeholder={this.props.lang.addressline2}
+                                                value={this.state.additionalStreetInfo}/>
+                                        </div>
+                                    </div>
 
-                                                                                 <div className="col-xs-12">
-                                                                                     <div className="form-group">
-                                                                                         <label htmlFor="adrs1">Address Line 1</label>
-                                                                                         <input type="text" className="form-control"
-                                                                                         id="adrs1"
-                                                                                         onChange={this.changeAddressHandler}
-                                                                                         name="streetName"
-                                                                                         placeholder="Address Line 1"
-                                                                                         value={this.state.streetName}
-                                                                                         ref={input => this._streetName = input}
-                                                                                         required
-                                                                                         />
-                                                                                     </div>
-                                                                                 </div>
-                                                                                 <div className="col-xs-12">
-                                                                                     <div className="form-group">
-                                                                                         <label htmlFor="adrs2">Address Line 2</label>
-                                                                                         <input type="text" className="form-control" id="adrs2"
-                                                                                         onChange={this.changeAddressHandler}
-                                                                                         name="additionalStreetInfo"
-                                                                                         placeholder="Address Line 2"
-                                                                                         value={this.state.additionalStreetInfo}
-                                                                                         ref={input => this._additionalStreetInfo = input} />
-                                                                                     </div>
-                                                                                 </div>
+                                    <div className="col-sm-4 col-xs-12">
+                                        <div className="form-group">
+                                            <label htmlFor="city">{this.props.lang.city}</label>
+                                            <input type="text" className="form-control" id="city"
+                                                onChange={this.changeAddressHandler}
+                                                name="city"
+                                                placeholder={this.props.lang.city}
+                                                value={this.state.city} required/>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-4 col-xs-12">
+                                        <div className="form-group">
+                                            <label htmlFor="zipCode">{this.props.lang.zip}</label>
+                                            <input type="text" className="form-control" id="zipCode"
+                                                onChange={this.changeAddressHandler}
+                                                name="postalCode"
+                                                placeholder={this.props.lang.zip}
+                                                value={this.state.postalCode} required/>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-4 col-xs-12">
+                                        <div className="form-group">
+                                            <label htmlFor="country">{this.props.lang.country}</label>
+                                            <input type="text" className="form-control caps" id="country" readOnly value={this.state.country} required />
+                                        </div>
+                                    </div>
 
-                                                                                 <div className="col-sm-4 col-xs-12">
-                                                                                     <div className="form-group">
-                                                                                         <label htmlFor="city">City</label>
-                                                                                         <input type="text" className="form-control" id="city"
-                                                                                         onChange={this.changeAddressHandler}
-                                                                                         name="city"
-                                                                                         placeholder="City"
-                                                                                         value={this.state.city}
-                                                                                         ref={input => this._city = input}
-                                                                                         required
-                                                                                         />
-                                                                                     </div>
-                                                                                 </div>
-                                                                                 <div className="col-sm-4 col-xs-12">
-                                                                                     <div className="form-group">
-                                                                                         <label htmlFor="zipCode">Zip Code</label>
-                                                                                         <input type="text" className="form-control" id="zipCode"
-                                                                                         onChange={this.changeAddressHandler}
-                                                                                         name="postalCode"
-                                                                                         placeholder="Zip Code"
-                                                                                         value={this.state.postalCode}
-                                                                                         ref={input => this._postalCode = input}
-                                                                                         required />
-                                                                                     </div>
-                                                                                 </div>
-                                                                                 <div className="col-sm-4 col-xs-12">
-                                                                                     <div className="form-group">
-                                                                                         <label htmlFor="country">Country</label>
-                                                                                         <input type="text" className="form-control caps" id="country" readOnly value={this.state.country} />
-                                                                                     </div>
-                                                                                 </div>
+                                </div>
 
-
-                                                                             </div>
                                 <div className="box-footer">
                                     <div className="pull-left">
-                                        <a href="basket.html" className="btn btn-default"><i className="fa fa-chevron-left"></i>Back to Shoping Cart</a>
+                                        <a href="basket.html" className="btn btn-default"><i className="fa fa-chevron-left"></i> {this.props.lang.back_to_shoping_cart}</a>
                                     </div>
                                     <div className="pull-right">
-                                        <button type="submit" className="btn btn-primary">Checkout<i className="fa fa-chevron-right"></i>
+                                        <button type="submit" className="btn btn-primary">{this.props.lang.checkout}<i className="fa fa-chevron-right"></i>
                                         </button>
                                     </div>
                                 </div>
