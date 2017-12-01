@@ -4,6 +4,7 @@ import ProductDetail from './product-details/product-details.jsx';
 import ShoppingCartDetails from './shopping-cart-details/shopping-cart-details.jsx';
 import OrderSummaryGuest from './order-summary/order-summary-guest.jsx';
 import OrderSummary from './order-summary/order-summary.jsx';
+import OrderConfirmation from './order-summary/order-confirmation.jsx';
 import MiniBasket from './mini-basket/mini-basket.jsx';
 import MiniBasketPopup from './mini-basket/mini-basket-popup.jsx';
 
@@ -25,12 +26,19 @@ if(shoppingCartDetail) {
 
 let orderSummaryGuest = document.getElementById('order-summary-guest');
 if(orderSummaryGuest) {
-    ReactDOM.render(<OrderSummaryGuest 
+    ReactDOM.render(<OrderSummaryGuest
     locale_details={window.locale_details} />, document.getElementById('order-summary-guest'));
 }
 let orderSummary = document.getElementById('order-summary');
 if(orderSummary) {
     ReactDOM.render(<OrderSummary />, document.getElementById('order-summary'));
+}
+
+let orderConfirmation = document.getElementById('order-confirmation');
+if(orderConfirmation) {
+
+    ReactDOM.render(<OrderConfirmation
+    orderno={$('[data-orderNo]').data().orderno}/>, document.getElementById('order-confirmation'));
 }
 
 let miniBasket = document.getElementById('mini-basket');

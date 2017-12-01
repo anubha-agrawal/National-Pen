@@ -4,7 +4,7 @@ class CartItem extends Component {
     constructor(props) {
         super(props);
         console.log("upsellCartObj", props.cartItem.upsellId);
-        
+
         if(props.cartItem.isUpsellAdded){
              this.state= {
                 cartMeta: props.cartMeta,
@@ -16,10 +16,10 @@ class CartItem extends Component {
                 upsellId: props.cartItem.upsellId
              }
         }
-        
+
     }
 
-    
+
 
     componentWillReceiveProps(nextProps){
         console.log(
@@ -43,10 +43,18 @@ class CartItem extends Component {
     addToOrder() {
         let upsellId = "";
         if(!this.props.cartItem.isUpsellAdded){
-            
+
             let currentLineItemUpsell = this.props.lineItemsUpsell.find((lineItem) => {
                 return lineItem.mainItemId === this.props.cartItem.id
             })
+
+            /* Update by anubha on 30 nov */
+            currentLineItemUpsell.externalTotalCentAmount = currentLineItemUpsell.externalTotalCentAmount * 100;
+            /* ***** */
+
+
+
+
             console.log("this.props.lineItemsUpsell **************", currentLineItemUpsell);
             Abc.order.addItemsInCart(this.props.cartMeta, [currentLineItemUpsell]).then(function(res){
                 console.log('Updated Cart Data', res);
@@ -67,7 +75,7 @@ class CartItem extends Component {
                         // }
                     let cartMetaData = {id:res.id, version:res.version}
                     this.props.cartItem.isUpsellAdded = true;
-                    this.setState({ 
+                    this.setState({
                         title: "Remove from Order",
                         upsellTitle: "Upsell Offer Added"
                     });
@@ -77,7 +85,7 @@ class CartItem extends Component {
                 }
             }.bind(this));
 
-            
+
             //api call to actually add to order
         } else{
             console.log("this.props.cartItem.upsellId", [this.props.cartItem.upsellId]);
@@ -104,7 +112,7 @@ class CartItem extends Component {
             console.log('cartMeta', { id: res1.id, version: res1.version });
             });
 
-            
+
             //api call to actually remove from order
         }
     };
@@ -121,10 +129,11 @@ class CartItem extends Component {
             upsellTitle = "Upsell Offer";
             isUpsellQuantityAdded = false;
         }
+        let totalUpsellCount = (this.props.cartItem.upsellQuantity * this.props.cartItem.upsellPrice).toFixed(2);
         return (
             <div>
             { !this.props.isProductReadonlyView
-            ?   
+            ?
                     <div className="table-responsive cartItem">
                                         <table className="table">
                                             <thead>
@@ -172,7 +181,7 @@ class CartItem extends Component {
                                         </div>
 
                     </div>
-            :  
+            :
                 <div className="table-responsive cartItem">
                     <table className="table">
                         <thead>
@@ -204,48 +213,48 @@ class CartItem extends Component {
                                 <td>
                                     {this.props.cartItem.quantity}<br/>
                                     {this.props.cartItem.freeQuantity} <b>(Free)</b><br/>
-                                    
-                                     
-                                    { isUpsellQuantityAdded 
-                                    ?  
+
+
+                                    { isUpsellQuantityAdded
+                                    ?
                                         <p> {this.props.cartItem.upsellQuantity} (Upsell)</p>
                                     : null
                                     }
-                                    
-                                    
+
+
                                 </td>
                                 <td>
                                     {this.props.cartItem.currencyCode} {this.props.cartItem.unitPrice}<br/>
                                     {this.props.cartItem.currencyCode} 0<br/>
-                                    { isUpsellQuantityAdded 
-                                    ?  
+                                    { isUpsellQuantityAdded
+                                    ?
                                         <p> {this.props.cartItem.currencyCode} {this.props.cartItem.upsellPrice}</p>
                                     : null
                                     }
-                                    
+
                                 </td>
                                 {/* <td>{this.props.cartItem.freeQuantity}</td> */}
                                 <td>
                                     {this.props.cartItem.currencyCode} {this.props.cartItem.total}<br/>
                                     {this.props.cartItem.currencyCode} 0<br/>
-                                    { isUpsellQuantityAdded 
-                                    ?  
-                                        <p> {this.props.cartItem.currencyCode} {this.props.cartItem.upsellQuantity * this.props.cartItem.upsellPrice}</p>
+                                    { isUpsellQuantityAdded
+                                    ?
+                                        <p> {this.props.cartItem.currencyCode} {totalUpsellCount}</p>
                                     : null
                                     }
-                                    
+
                                 </td>
-                                
+
                             </tr>
 
                         </tbody>
 
                     </table>
-                    
+
 
                 </div>
         }
-    
+
 
         </div>
         );

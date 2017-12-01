@@ -45,6 +45,8 @@ class ProductDetail extends Component {
          let tierPricesData;
 
          for(let i=0;i<tierPrices.length;i++){
+              console.log("country--->",(tierPrices[i]));
+              console.log("main point......");
          console.log((tierPrices[i].country).toLowerCase() +"=="+ (countryCode).toLowerCase());
           if((tierPrices[i].country).toLowerCase() == (countryCode).toLowerCase()){
             tierPricesData = tierPrices[i];
@@ -179,7 +181,7 @@ class ProductDetail extends Component {
                                   variantInfo = {this.state.variantInfo}
                                   lang={this.props.lang}
                                   locale_details={this.props.locale_details}
-                                  
+
                                   />
                               </p>
                             </div>

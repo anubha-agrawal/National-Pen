@@ -40,6 +40,7 @@ class ShoppingCartDetails extends Component {
       }
     }.bind(this));
   }
+
   handleDeleteProject(id) {
     console.log("%%%%%")
     let lineItemIdArray = [];
