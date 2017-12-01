@@ -30,6 +30,10 @@ h1 {
 }
 
 /* Generic Stylesheet */
+html{
+  height: 100%;
+  min-height: 100%;
+}
 .relative-container{
   position: relative;
 }
@@ -127,6 +131,8 @@ h1 {
   padding-left: 0;
   margin-left: -40%;
   margin-bottom: 0px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .carousel-indicators li{
   width: 50px;
@@ -137,10 +143,11 @@ h1 {
   margin: 2px;
   border-width: 2px;
   border-color: #555555;
+  cursor: default;
 }
 .carousel-indicators li img{
-  width: 100%;
-  height: 100%;
+  width: 100% !Important;
+  height: 100% !Important;
   position: absolute;
   top:0px;
   left:0px;

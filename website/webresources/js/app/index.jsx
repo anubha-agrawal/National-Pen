@@ -27,18 +27,23 @@ if(shoppingCartDetail) {
 let orderSummaryGuest = document.getElementById('order-summary-guest');
 if(orderSummaryGuest) {
     ReactDOM.render(<OrderSummaryGuest 
-    locale_details={window.locale_details} />, document.getElementById('order-summary-guest'));
+    locale_details={window.locale_details}
+    lang={window.order_summary} />, document.getElementById('order-summary-guest'));
 }
 let orderSummary = document.getElementById('order-summary');
 if(orderSummary) {
-    ReactDOM.render(<OrderSummary />, document.getElementById('order-summary'));
+    ReactDOM.render(<OrderSummary 
+    locale_details={window.locale_details}
+    lang={window.order_summary_main}/>, document.getElementById('order-summary'));
 }
 
 let orderConfirmation = document.getElementById('order-confirmation');
 if(orderConfirmation) {
     
     ReactDOM.render(<OrderConfirmation 
-    orderno={$('[data-orderNo]').data().orderno}/>, document.getElementById('order-confirmation'));
+    orderno={$('[data-orderNo]').data().orderno}
+    locale_details={window.locale_details}
+    lang={window.order_confirmation} />, document.getElementById('order-confirmation'));
 }
 
 let miniBasket = document.getElementById('mini-basket');
