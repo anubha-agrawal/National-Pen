@@ -28,13 +28,16 @@ let orderSummaryGuest = document.getElementById('order-summary-guest');
 if(orderSummaryGuest) {
     ReactDOM.render(<OrderSummaryGuest
     locale_details={window.locale_details}
-    lang={window.order_summary} />, document.getElementById('order-summary-guest'));
+    lang={window.order_summary}
+    lang_ShoppingCart={window.shopping_cart_details} />, document.getElementById('order-summary-guest'));
 }
 let orderSummary = document.getElementById('order-summary');
 if(orderSummary) {
     ReactDOM.render(<OrderSummary
     locale_details={window.locale_details}
-    lang={window.order_summary_main}/>, document.getElementById('order-summary'));
+    lang={window.order_summary_main}
+    lang_ShoppingCart={window.shopping_cart_details}
+    />, document.getElementById('order-summary'));
 }
 
 let orderConfirmation = document.getElementById('order-confirmation');
@@ -53,5 +56,7 @@ if(miniBasket) {
 
 let miniBasketPopup = document.getElementById('mini-basket-popup');
 if(miniBasketPopup) {
+    console.log("this.props.lang----");
+    console.log(window.shopping_cart_details);
     ReactDOM.render(<MiniBasketPopup lang={window.shopping_cart_details} header='Cart Details' />, document.getElementById('mini-basket-popup'));
 }

@@ -8,6 +8,7 @@ class MiniBasketPopup extends Component{
 		this.state = {
 			itemCount:0
 		};
+	
 	}
 
 	componentDidMount () {
@@ -32,11 +33,11 @@ class MiniBasketPopup extends Component{
 			        <h4 className="modal-title">{this.props.header}</h4>
 			      </div>
 			      <div className="modal-body">
-				   <ShoppingCartDetails miniBasketPopup={true} />
+				   <ShoppingCartDetails lang={this.props.lang} miniBasketPopup={true} />
 			      </div>
 			      <div className="modal-footer">
 					 <div className="pull-right">
-						 <a href="order-summary-guest" className="btn btn-primary">Proceed to checkout <i className="fa fa-chevron-right"></i></a>
+						 <a href="order-summary-guest" className="btn btn-primary">{this.props.lang.buttonRight}<i className="fa fa-chevron-right"></i></a>
 					 </div>
 			      </div>
 			    </div>

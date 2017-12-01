@@ -30,6 +30,8 @@ class OrderSummaryGuest extends Component {
         this.AddAddressToCart = this.AddAddressToCart.bind(this);
         this.changeAddressHandler = this.changeAddressHandler.bind(this);
 
+        
+
     }
 
     componentWillMount() {
@@ -220,7 +222,7 @@ class OrderSummaryGuest extends Component {
         let setDefault = true;
         let cartMeta = {  id: cartId,  version: versionNo };
         let customerAddressData = this.getCustomerData();
-
+        
         let actions = [
             {
                 'action':'setShippingAddress',
@@ -317,7 +319,7 @@ class OrderSummaryGuest extends Component {
                     <div className="col-md-9 col-xs-12" id="checkout">
                         <div className="box">
                             <div className="product-view">
-                                {cartItems.map((item, index) => <CartItem key={index} updateParentCartMetaData={this.updateCartMetaData.bind(this)} isProductReadonlyView="true" key={index} cartItem={item} cartMeta={this.state.cartMeta}  lineItemsUpsell = {this.getLineItemUpsell(item, this.state.fullCart)}/>)}
+                                {cartItems.map((item, index) => <CartItem lang={this.props.lang_ShoppingCart}  key={index} updateParentCartMetaData={this.updateCartMetaData.bind(this)} isProductReadonlyView="true" key={index} cartItem={item} cartMeta={this.state.cartMeta}  lineItemsUpsell = {this.getLineItemUpsell(item, this.state.fullCart)}/>)}
 
                             </div>
                             <hr/>
@@ -446,7 +448,7 @@ class OrderSummaryGuest extends Component {
                     </div>
                     <div className="col-md-3 col-xs-12">
 
-                        {cartItems.length ? <OrderSummaryBox orderDetails={orderDetails} isProductReadonlyView="true" isShippingChargesView="false" /> : ''}
+                        {cartItems.length ? <OrderSummaryBox lang={this.props.lang_ShoppingCart}  orderDetails={orderDetails} isProductReadonlyView="true" isShippingChargesView="false" /> : ''}
                     </div>
                 </div>
             </div>

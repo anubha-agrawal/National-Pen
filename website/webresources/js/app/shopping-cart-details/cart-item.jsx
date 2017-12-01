@@ -203,11 +203,11 @@ class CartItem extends Component {
                                     </td>
                                     <td>
                                         {this.props.cartItem.quantity}<br/>
-                                        {this.props.cartItem.freeQuantity} <b>(Free)</b><br/>
+                                        {this.props.cartItem.freeQuantity} ({this.props.lang.free})<br/>
 
                                         { isUpsellQuantityAdded
                                             ?
-                                            <p> {this.props.cartItem.upsellQuantity} (Upsell)</p>
+                                            <p> {this.props.cartItem.upsellQuantity} ({this.props.lang.upsell})</p>
                                             : null
                                         }
 
