@@ -52,3 +52,16 @@ a.active_lang {
 #miniBasketModel .clear{
 	clear: both;
 }
+
+
+#addressForm .has-error .control-label,
+#addressForm .has-error .help-block,
+#addressForm .has-error .form-control-feedback {
+    color: #f39c12;
+}
+
+#addressForm .has-success .control-label,
+#addressForm .has-success .help-block,
+#addressForm .has-success .form-control-feedback {
+    color: #18bc9c;
+}

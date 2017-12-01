@@ -47,11 +47,11 @@ class ProductDetail extends Component {
             console.log(`${(tierPrices[i].country).toLowerCase() }==${ (countryCode).toLowerCase()}`);
             if((tierPrices[i].country).toLowerCase() == (countryCode).toLowerCase()) {
                 tierPricesData = tierPrices[i];
-                
+
                 return tierPricesData;
             }
         }
-        
+
         return null;
     }
 
@@ -64,12 +64,12 @@ class ProductDetail extends Component {
 
         /* get Product data from CommeceTools (ABC library) Using product Id */
         window.Abc.product.getProduct(productId).then(result => {
-            
+
             if(parseInt(result.status) !== 404) {
                 let productDetailsData = result.masterData.current;
                 let tierPrices = productDetailsData.masterVariant.prices;
                 let tierPricesData;
-                
+
                 tierPricesData = this.getPrices(tierPrices, countryCode, currencyCode);
                 let productDetails = {
                     isLoader: false,
@@ -181,7 +181,7 @@ class ProductDetail extends Component {
                                                     variantInfo = {this.state.variantInfo}
                                                     lang={this.props.lang}
                                                     locale_details={this.props.locale_details}
-                                  
+
                                                 />
                                             </p>
                                         </div>

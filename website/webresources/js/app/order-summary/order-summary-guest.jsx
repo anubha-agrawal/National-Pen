@@ -29,16 +29,16 @@ class OrderSummaryGuest extends Component {
 
         this.AddAddressToCart = this.AddAddressToCart.bind(this);
         this.changeAddressHandler = this.changeAddressHandler.bind(this);
-        
+
     }
 
-    componentWillMount() { 
+    componentWillMount() {
         this.changeGenericHandler('isLoader', true);
         Abc.order.getCart(window.user_id, false).then(res => {
             false;
             let cartItem = {}, orderDetail = {}, lineItemsUpsell=[];
-          
-            if (res.id) {        // Valid Cart, Store it for further use   
+
+            if (res.id) {        // Valid Cart, Store it for further use
                 console.log('sandeep7-0515-4ba8-be12-5aef76be8225', res);
                 console.log('test ', lineItemsUpsell);
                 let cartMeta = {
@@ -49,12 +49,12 @@ class OrderSummaryGuest extends Component {
                 this.setState({ cartId: res.id });
                 this.setState({ versionNo: res.version });
                 /*****/
-            
-                this.setState({ fullCart: res, isLoader: false, cartMeta: cartMeta, 
+
+                this.setState({ fullCart: res, isLoader: false, cartMeta: cartMeta,
                     lineItemsUpsell: lineItemsUpsell });
-        
+
             }
-            if (res.statusCode == 404) { 
+            if (res.statusCode == 404) {
             // res.statusCode == 404 if no cart exists
             //no items in cart
                 this.setState({ isLoader: false });
@@ -100,12 +100,12 @@ class OrderSummaryGuest extends Component {
                             cartArray[k].freeQuantity = res.lineItems[i].quantity;
                         }
                     }
-                }          
+                }
             }
         }
-        
-        return cartArray;      
-        
+
+        return cartArray;
+
     }
 
     getLineItemUpsell(cartItem, res) {
@@ -126,7 +126,7 @@ class OrderSummaryGuest extends Component {
                 itemUpsell = {
                     productId: res.lineItems[i].productId,
                     currencyCode: res.lineItems[i].totalPrice.currencyCode,
-                    externalTotalCentAmount: 3 * 600, 
+                    externalTotalCentAmount: 3 * 600,
                     customFields: customFields,
                     variantId: res.lineItems[i].variant.id,
                     mainItemId : res.lineItems[i].id
@@ -138,11 +138,11 @@ class OrderSummaryGuest extends Component {
                     for (let z = 0; z < upsellInfo.length; z++) {
                         upsellBreakup = upsellInfo[z].split('::');
                         if (upsellBreakup[0] == cartItem.quantity) {
-                   
+
                             cartItem.upsellQuantity = upsellBreakup[1];
                             cartItem.upsellPrice = upsellBreakup[2] / 100;
                             cartItem.isUpsellAdded = false;
-                    
+
                             itemUpsell.quantity = upsellBreakup[1];
                             itemUpsell.externalTotalCentAmount = upsellBreakup[2];
                         }
@@ -169,8 +169,7 @@ class OrderSummaryGuest extends Component {
                 'currencyCode': getSymbolFromCurrency(res.totalPrice.currencyCode),
                 'total': res.totalPrice.centAmount / 100
             };
-        } 
-        
+        }
         return orderDetails;
     }
 
@@ -187,48 +186,69 @@ class OrderSummaryGuest extends Component {
             'postalCode': this.state.postalCode, 
             'country': 'GB' //(this.props.locale_details.country_code).toUpperCase()   
         };
-        
+
         return customerAddressData;
+    }
+
+    _handleSubmit(event){
+         event.preventDefault();
+
+         console.log("firstName->",this._firstName.value);
+         console.log("lastName->",this._lastName.value);
+         console.log("email->",this._email.value);
+/*
+         if(this._firstName.value=="") this._firstName.setCustomValidity('Please enter first name!');
+         if(this._lastName.value=="") this._lastName.setCustomValidity('Please enter last name!');
+         if(this._email.value=="") this._email.setCustomValidity('Please enter email address!');
+         if(this._phone.value=="") this._email.setCustomValidity('Please enter phone number!');
+
+         if(this._streetName.value=="") this._email.setCustomValidity('Please enter address line 1 !');
+         if(this._city.value=="") this._city.setCustomValidity('Please enter city !');
+         if(this._postalCode.value=="") this._city.setCustomValidity('Please postal code !');
+*/
+         console.log("yahoo..");
+
+         return false;
     }
 
     /* Add Shipping & Billing Address */
     AddAddressToCart(event) {
-        event.preventDefault(); 
+        event.preventDefault();
         this.changeGenericHandler('isLoader', true);
         let cartId = this.state.cartId;
         let versionNo = this.state.versionNo;
         let setDefault = true;
-        let cartMeta = {  id: cartId,  version: versionNo }; 
+        let cartMeta = {  id: cartId,  version: versionNo };
         let customerAddressData = this.getCustomerData();
 
         let actions = [
-            {       
-                'action':'setShippingAddress',        
+            {
+                'action':'setShippingAddress',
                 'address': customerAddressData
             },
-            {       
-                'action':'setBillingAddress',        
+            {
+                'action':'setBillingAddress',
                 'address': customerAddressData
             },
-            { 
-                'action': 'setCustomField',        
-                'name': 'shippingAtLineItemLevel',        
-                'value': false    
+            {
+                'action': 'setCustomField',
+                'name': 'shippingAtLineItemLevel',
+                'value': false
             }
         ];
-        console.log(JSON.stringify(cartMeta)); 
-        console.log(JSON.stringify(actions)); 
+        console.log(JSON.stringify(cartMeta));
+        console.log(JSON.stringify(actions));
 
-        window.Abc.order.updateCart(cartMeta, actions).then(res => {   
-            this.changeGenericHandler('isLoader', false); 
-            console.log('Updated Cart Result', JSON.stringify(res));    
-            console.log('cartMeta', { id:res.id, version:res.version }); 
+        window.Abc.order.updateCart(cartMeta, actions).then(res => {
+            this.changeGenericHandler('isLoader', false);
+            console.log('Updated Cart Result', JSON.stringify(res));
+            console.log('cartMeta', { id:res.id, version:res.version });
             if(res.id) {
                 window.location.href = 'order-summary';
             }else{
                 console.log();
             }
-            
+
         });
     }
 
@@ -246,9 +266,9 @@ class OrderSummaryGuest extends Component {
     render() {
         let cartItems = this.processLineItem(this.state.fullCart);
         let orderDetails = this.processLineItemForOrderDetails(this.state.fullCart);
-        
+
         return (
-            
+
             <div className="container top-gutter ">
                 {
                     this.state.isLoader
@@ -261,9 +281,9 @@ class OrderSummaryGuest extends Component {
                             <div className="box-header">
                                 <h1>{this.props.lang.checkout}</h1>
                             </div>
-                                            
+
                             <div className="">
-                                                
+
                                 <form name="loginForm">
                                     <div className="row">
                                         <div className="col-sm-4 col-xs-12">
@@ -291,9 +311,9 @@ class OrderSummaryGuest extends Component {
                         </div>
                     </div>
                 </div>
-                       
-                <div className="row">    
-                          
+
+                <div className="row">
+
                     <div className="col-md-9 col-xs-12" id="checkout">
                         <div className="box">
                             <div className="product-view">
@@ -307,47 +327,48 @@ class OrderSummaryGuest extends Component {
                                     <div className="col-sm-6 col-xs-12">
                                         <div className="form-group">
                                             <label htmlFor="firstName">{this.props.lang.firstname}</label>
-                                            <input 
-                                                type="text" className="form-control" 
-                                                id="firstName" 
+                                            <input
+                                                type="text" className="form-control"
+                                                id="firstName"
                                                 onChange={this.changeAddressHandler}
                                                 name="firstName"
                                                 placeholder={this.props.lang.firstname}
-                                                value={this.state.firstName} />
+                                                value={this.state.firstName} required />
                                         </div>
-                                               
+
                                     </div>
                                     <div className="col-sm-6 col-xs-12">
                                         <div className="form-group">
                                             <label htmlFor="lastName">{this.props.lang.lastname}</label>
-                                            <input type="text" className="form-control" 
+                                            <input type="text" className="form-control"
                                                 id="lastName"
                                                 onChange={this.changeAddressHandler}
                                                 name="lastName"
                                                 placeholder={this.props.lang.lastname}
-                                                value={this.state.lastName} />
+                                                value={this.state.lastName} required />
                                         </div>
                                     </div>
                                     <div className="col-sm-6 col-xs-12">
                                         <div className="form-group">
                                             <label htmlFor="email">{this.props.lang.email}</label>
-                                            <input type="text" className="form-control" 
+                                            <input type="email" className="form-control"
                                                 id="email"
                                                 onChange={this.changeAddressHandler}
                                                 name="email"
                                                 placeholder={this.props.lang.email}
-                                                value={this.state.email} />
+                                                value={this.state.email} required />
                                         </div>
                                     </div>
                                     <div className="col-sm-6 col-xs-12">
                                         <div className="form-group">
                                             <label htmlFor="phone">{this.props.lang.phone}</label>
-                                            <input type="text" className="form-control" 
-                                                id="phone" 
+                                            <input type="number" className="form-control"
+                                                id="phone"
                                                 onChange={this.changeAddressHandler}
                                                 name="phone"
                                                 placeholder={this.props.lang.phone}
                                                 value={this.state.phone}
+                                                required
                                             />
                                         </div>
                                     </div>
@@ -359,58 +380,58 @@ class OrderSummaryGuest extends Component {
                                             </label>
                                         </div>
                                     </div>
-                                        
+
                                     <div className="col-xs-12">
                                         <div className="form-group">
                                             <label htmlFor="adrs1">{this.props.lang.addressline1}</label>
-                                            <input type="text" className="form-control" 
-                                                id="adrs1" 
+                                            <input type="text" className="form-control"
+                                                id="adrs1"
                                                 onChange={this.changeAddressHandler}
                                                 name="streetName"
                                                 placeholder={this.props.lang.addressline1}
-                                                value={this.state.streetName}/>
+                                                value={this.state.streetName} required/>
                                         </div>
                                     </div>
                                     <div className="col-xs-12">
                                         <div className="form-group">
                                             <label htmlFor="adrs2">{this.props.lang.addressline2}</label>
-                                            <input type="text" className="form-control" id="adrs2" 
+                                            <input type="text" className="form-control" id="adrs2"
                                                 onChange={this.changeAddressHandler}
                                                 name="additionalStreetInfo"
                                                 placeholder={this.props.lang.addressline2}
                                                 value={this.state.additionalStreetInfo}/>
                                         </div>
                                     </div>
-                                        
+
                                     <div className="col-sm-4 col-xs-12">
                                         <div className="form-group">
                                             <label htmlFor="city">{this.props.lang.city}</label>
-                                            <input type="text" className="form-control" id="city" 
+                                            <input type="text" className="form-control" id="city"
                                                 onChange={this.changeAddressHandler}
                                                 name="city"
                                                 placeholder={this.props.lang.city}
-                                                value={this.state.city}/>
+                                                value={this.state.city} required/>
                                         </div>
                                     </div>
                                     <div className="col-sm-4 col-xs-12">
                                         <div className="form-group">
                                             <label htmlFor="zipCode">{this.props.lang.zip}</label>
-                                            <input type="text" className="form-control" id="zipCode" 
+                                            <input type="text" className="form-control" id="zipCode"
                                                 onChange={this.changeAddressHandler}
                                                 name="postalCode"
                                                 placeholder={this.props.lang.zip}
-                                                value={this.state.postalCode}/>
+                                                value={this.state.postalCode} required/>
                                         </div>
                                     </div>
                                     <div className="col-sm-4 col-xs-12">
                                         <div className="form-group">
                                             <label htmlFor="country">{this.props.lang.country}</label>
-                                            <input type="text" className="form-control caps" id="country" readOnly value={this.state.country} />
+                                            <input type="text" className="form-control caps" id="country" readOnly value={this.state.country} required />
                                         </div>
                                     </div>
-                                        
+
                                 </div>
-                                    
+
                                 <div className="box-footer">
                                     <div className="pull-left">
                                         <a href="basket.html" className="btn btn-default"><i className="fa fa-chevron-left"></i> {this.props.lang.back_to_shoping_cart}</a>
@@ -429,7 +450,6 @@ class OrderSummaryGuest extends Component {
                     </div>
                 </div>
             </div>
-           
         );
     }
 }

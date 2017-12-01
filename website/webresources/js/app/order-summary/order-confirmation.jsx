@@ -4,8 +4,8 @@ import React, { Component } from "react";
 class OrderConfirmation extends Component {
   constructor(props) {
     super(props);
-    
-    
+
+
   }
   render() {
     return (
@@ -18,7 +18,7 @@ class OrderConfirmation extends Component {
                 <h3>{this.props.lang.orderid} {this.props.orderno}</h3>
                 <a href="home" className="btn btn-default"><i className="fa fa-chevron-left"></i> {this.props.lang.continue}</a>
             </div>
-            
+
         </div>
       </div>
     );

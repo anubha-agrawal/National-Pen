@@ -90,7 +90,7 @@ class ShoppingCartDetails extends Component {
                 console.log(res.lineItems[i]);
                 if (res.lineItems[i].custom.fields.lineItemType == 'mainItem') {
                     let userSelections = Abc.order.setOfStringsToObject((res.lineItems[i].custom && res.lineItems[i].custom.fields.userSelection) ? res.lineItems[i].custom.fields.userSelection : []);
-                    
+
                     cartItem = {
                         'id': res.lineItems[i].id,
                         'productName': res.lineItems[i].name.en,
@@ -119,7 +119,7 @@ class ShoppingCartDetails extends Component {
                 }
             }
         }
-        
+
         return cartArray;
 
     }
@@ -186,14 +186,14 @@ class ShoppingCartDetails extends Component {
                 'total': res.totalPrice.centAmount / 100
             };
         }
-        
+
         return orderDetails;
     }
 
     render() {
         let cartItems = this.processLineItem(this.state.fullCart);
         let orderDetails = this.processLineItemForOrderDetails(this.state.fullCart);
-        
+
         return (
             <div className="container top-gutter">
                 {

@@ -10,6 +10,18 @@ class MiniBasketPopup extends Component{
 		};
 	}
 
+	componentDidMount () {
+
+		// Subscribing Cart update Event, So that can show updated cart we get after cart update event
+		window.Abc.EventBus.subscribe(Abc.order.EVENT_CART_UPDATED, 'mini-basket', this.onCartUpdated.bind(this));
+	}
+	onCartUpdated(cart){
+		console.log("popup ini............");
+		console.log("cart",cart);
+		this.setState(
+			{itemCount:cart}
+		);
+	}
 	render () {
 		return (
 			<div id="miniBasketModel" className="modal fade" role="dialog">
@@ -23,11 +35,8 @@ class MiniBasketPopup extends Component{
 				   <ShoppingCartDetails miniBasketPopup={true} />
 			      </div>
 			      <div className="modal-footer">
-					 <div className="pull-left">
-						 <a href="home" className="btn btn-default"><i className="fa fa-chevron-left"></i> Continue shopping</a>
-					 </div>
 					 <div className="pull-right">
-						 <button type="button" className="btn btn-primary">Proceed to checkout <i className="fa fa-chevron-right"></i></button>
+						 <a href="order-summary-guest" className="btn btn-primary">Proceed to checkout <i className="fa fa-chevron-right"></i></a>
 					 </div>
 			      </div>
 			    </div>
