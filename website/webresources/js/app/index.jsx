@@ -21,7 +21,10 @@ if(productDetail) {
 
 let shoppingCartDetail = document.getElementById('shopping-cart-details');
 if(shoppingCartDetail) {
-    ReactDOM.render(<ShoppingCartDetails lang={window.shopping_cart_details} miniBasketPopup={false}/>, document.getElementById('shopping-cart-details'));
+    ReactDOM.render(<ShoppingCartDetails
+    lang={window.shopping_cart_details}
+    locale_details={window.locale_details}
+    miniBasketPopup={false} />, document.getElementById('shopping-cart-details'));
 }
 
 let orderSummaryGuest = document.getElementById('order-summary-guest');
@@ -58,5 +61,7 @@ let miniBasketPopup = document.getElementById('mini-basket-popup');
 if(miniBasketPopup) {
     console.log("this.props.lang----");
     console.log(window.shopping_cart_details);
-    ReactDOM.render(<MiniBasketPopup lang={window.shopping_cart_details} header='Cart Details' />, document.getElementById('mini-basket-popup'));
+    ReactDOM.render(<MiniBasketPopup lang={window.shopping_cart_details}
+    locale_details={window.locale_details}
+    header='Cart Details' />, document.getElementById('mini-basket-popup'));
 }
