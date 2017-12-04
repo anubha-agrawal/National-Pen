@@ -21,7 +21,7 @@ if(productDetail) {
 
 let shoppingCartDetail = document.getElementById('shopping-cart-details');
 if(shoppingCartDetail) {
-    ReactDOM.render(<ShoppingCartDetails lang={window.shopping_cart_details} miniBasketPopup={false} />, document.getElementById('shopping-cart-details'));
+    ReactDOM.render(<ShoppingCartDetails lang={window.shopping_cart_details} miniBasketPopup={false}/>, document.getElementById('shopping-cart-details'));
 }
 
 let orderSummaryGuest = document.getElementById('order-summary-guest');

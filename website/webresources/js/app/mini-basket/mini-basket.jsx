@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import ReactDOM from 'react-dom';
+import MiniBasketPopup from './mini-basket-popup.jsx';
 
 class MiniBasket extends Component {
 	constructor (props) {
@@ -29,7 +31,7 @@ class MiniBasket extends Component {
 		}.bind(this));
 
 		// Subscribing Login Event, So that can show cart we get after user get logged in
-		window.Abc.EventBus.subscribe(Abc.auth.EVENT_LOGGED_IN, 'mini-basket', this.onUserLogin.bind(this));
+		//window.Abc.EventBus.subscribe(Abc.auth.EVENT_LOGGED_IN, 'mini-basket', this.onUserLogin.bind(this));
 		// Subscribing Cart update Event, So that can show updated cart we get after cart update event
 		window.Abc.EventBus.subscribe(Abc.order.EVENT_CART_UPDATED, 'mini-basket', this.onCartUpdated.bind(this));
 	}
@@ -45,6 +47,9 @@ class MiniBasket extends Component {
 		this.setState(
 			{itemCount:total}
 		);
+
+		ReactDOM.render(<MiniBasketPopup lang={window.shopping_cart_details} header='Cart Details' />, document.getElementById('mini-basket-popup'));
+
 		console.log("total-->",total)
 	}
 

@@ -1,0 +1,10 @@
+cssFiles:
+  bootstrap:
+    addFingerPrint: true
+    link: /.resources/website/webresources/css/nationalpen-nor.css
+    media: all
+jsFiles:
+  #JavaScript files configuration
+imaging: 
+  #Imaging variations configuration
+    

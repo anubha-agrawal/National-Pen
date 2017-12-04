@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from 'react-dom';
 import ShoppingCartDetails from './../shopping-cart-details/shopping-cart-details.jsx';
 
 
@@ -6,24 +7,27 @@ class MiniBasketPopup extends Component{
 	constructor (props) {
 		super(props);
 		this.state = {
-			itemCount:0
+			itemCount:0,
+			data:{},
+			ShoppingCartDetails: ()=><ShoppingCartDetails lang={this.props.lang} miniBasketPopup={true}/>
 		};
-	
+
 	}
 
 	componentDidMount () {
-
 		// Subscribing Cart update Event, So that can show updated cart we get after cart update event
-		window.Abc.EventBus.subscribe(Abc.order.EVENT_CART_UPDATED, 'mini-basket', this.onCartUpdated.bind(this));
+		window.Abc.EventBus.subscribe(Abc.order.EVENT_CART_UPDATED, 'mini-basket-popup', this.onCartUpdated.bind(this));
 	}
-	onCartUpdated(cart){
-		console.log("popup ini............");
-		console.log("cart",cart);
-		this.setState(
-			{itemCount:cart}
-		);
+
+	onCartUpdated(res){
+		this.setState({
+ 	      ShoppingCartDetails: ()=><ShoppingCartDetails lang={this.props.lang} miniBasketPopup={true}/>
+ 	    });
 	}
+
 	render () {
+		console.log("popup has been completed.....");
+		const ShoppingCartDetails = this.state.ShoppingCartDetails;
 		return (
 			<div id="miniBasketModel" className="modal fade" role="dialog">
 			  <div className="modal-dialog modal-lg">

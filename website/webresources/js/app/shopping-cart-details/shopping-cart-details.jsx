@@ -38,6 +38,28 @@ class ShoppingCartDetails extends Component {
                 this.setState({ isLoader: false });
             }
         });
+        // Subscribing Cart update Event, So that can show updated cart we get after cart update event
+        window.Abc.EventBus.subscribe(Abc.order.EVENT_CART_UPDATED, 'shopping-cart-details', this.onShoppingCartUpdated.bind(this));
+    }
+    onShoppingCartUpdated(res){
+         let cartItem = {}, orderDetail = {}, lineItemsUpsell=[];
+
+         if (res.id) {        // Valid Cart, Store it for further use
+             console.log('sandeep7-0515-4ba8-be12-5aef76be8225', res);
+             console.log('test ', lineItemsUpsell);
+             let cartMeta = {
+                 id: res.id,
+                 version: res.version
+             };
+             this.setState({ fullCart: res, isLoader: false, cartMeta: cartMeta,
+                 lineItemsUpsell: lineItemsUpsell });
+
+         }
+         if (res.statusCode == 404) {
+             // res.statusCode == 404 if no cart exists
+             //no items in cart
+             this.setState({ isLoader: false });
+         }
     }
     handleDeleteProject(id) {
         console.log('%%%%%');
